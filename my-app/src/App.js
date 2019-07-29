@@ -1,25 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Fragment } from 'react';
 import './App.css';
+import { DrawerMenu } from './component/menu/DrawerMenu';
 
 function App() {
+  const style = {
+    color: 'black',
+    backgroundColor: 'black',
+    width: '20px',
+    height: '20px'
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <DrawerMenu />
+      <div style={style}>ejjj</div>
+    </Fragment>
   );
 }
 
