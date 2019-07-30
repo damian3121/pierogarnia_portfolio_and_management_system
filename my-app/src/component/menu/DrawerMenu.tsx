@@ -20,6 +20,11 @@ import { IconMenuItem } from './IconMenuItem';
 interface MenuItem {
   iconName: string;
   itemValue: string;
+  path: string;
+}
+
+interface Props {
+  pageContent(): any;
 }
 
 const drawerWidth = 240;
@@ -80,30 +85,35 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function DrawerMenu() {
+export function DrawerMenu(props: Props) {
   const classes = useStyles();
   const theme = useTheme();
 
   const menuItem: Array<MenuItem> = [
     {
       iconName: 'SupervisedUserCircle',
-      itemValue: 'O nas'
+      itemValue: 'O nas',
+      path: '/o-nas'
     },
     {
       iconName: 'LocalOffer',
-      itemValue: 'Oferta'
+      itemValue: 'Oferta',
+      path: '/oferta'
     },
     {
       iconName: 'AttachMoney',
-      itemValue: 'Cennik'
+      itemValue: 'Cennik',
+      path: '/cennik'
     },
     {
       iconName: 'PhotoCamera',
-      itemValue: 'Galeria'
+      itemValue: 'Galeria',
+      path: '/galeria'
     },
     {
       iconName: 'Phone',
-      itemValue: 'Kontakt'
+      itemValue: 'Kontakt',
+      path: '/kontakt'
     }
   ]
 
@@ -156,17 +166,27 @@ export function DrawerMenu() {
         <Divider />
         <List>
           {menuItem.map((item) => (
-            <ListItem button key={item.itemValue}>
-              <ListItemIcon>
+            <ListItem button key={item.itemValue} onClick={() => location.assign(item.path)}>
+              <ListItemIcon >
                 {
                   IconMenuItem(item.iconName)
                 }
               </ListItemIcon>
-              <ListItemText primary={item.itemValue}/>
+              <ListItemText primary={item.itemValue} />
             </ListItem>
           ))}
         </List>
       </Drawer>
+      <main
+        className={clsx(classes.content, {
+          [classes.contentShift]: open,
+        })}
+      >
+        <div className={classes.drawerHeader} />
+        {
+          props.pageContent
+        }
+      </main>
     </div>
   )
 }
