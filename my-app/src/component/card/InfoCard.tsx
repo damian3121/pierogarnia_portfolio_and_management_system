@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     centerHorizontal: {
       margin: 'auto',
-      width: '100%'
+      width: '100%',
+      maxWidth: 'fit-content'
     },
     contentHeight: {
       minHeight: '120px'
@@ -46,10 +47,9 @@ export default function RecipeReviewCard(props: Props) {
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
+          alt="None"
           height={props.imageHeight}
           image={props.imageTrack}
-          title="Contemplative Reptile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">

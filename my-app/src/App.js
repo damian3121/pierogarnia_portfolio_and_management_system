@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { AboutUs } from '../src/content/main/AboutUs'
 import { Offer } from '../src/content/main/Offer'
-import { DrawerMenu } from './component/menu/DrawerMenu';
+import { DrawerMenu } from './component/navigation/DrawerMenu';
 
 function App() {
   return (

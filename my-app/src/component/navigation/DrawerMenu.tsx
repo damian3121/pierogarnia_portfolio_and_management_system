@@ -16,6 +16,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { IconMenuItem } from './IconMenuItem';
+import { Footer } from './Footer';
 
 interface MenuItem {
   iconName: string;
@@ -35,7 +36,8 @@ const useStyles = makeStyles(theme => ({
     paddingTop: '100px',
     paddingLeft: '50px',
     paddingRight: '50px',
-    paddingBottom: '100px'
+    paddingBottom: '100px',
+    height: '-webkit-fill-available'
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
@@ -186,6 +188,7 @@ export function DrawerMenu(props: Props) {
         {
           props.pageContent
         }
+        <Footer/>
       </Fragment>
     </div>
   )
