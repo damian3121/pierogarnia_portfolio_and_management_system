@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -27,11 +27,15 @@ interface Props {
   pageContent(): any;
 }
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
+    paddingTop: '100px',
+    paddingLeft: '50px',
+    paddingRight: '50px',
+    paddingBottom: '100px'
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
@@ -74,7 +78,6 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: -drawerWidth,
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -83,6 +86,9 @@ const useStyles = makeStyles(theme => ({
     }),
     marginLeft: 0,
   },
+  backgroundColor: {
+    backgroundColor: '#eeeeee'
+  }
 }));
 
 export function DrawerMenu(props: Props) {
@@ -128,7 +134,7 @@ export function DrawerMenu(props: Props) {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={clsx(classes.root, classes.backgroundColor)}>
       <CssBaseline />
       <AppBar
         position='fixed'
@@ -150,7 +156,6 @@ export function DrawerMenu(props: Props) {
         </Toolbar>
       </AppBar>
       <Drawer
-        className={classes.drawer}
         variant="persistent"
         anchor="left"
         open={open}
@@ -177,16 +182,11 @@ export function DrawerMenu(props: Props) {
           ))}
         </List>
       </Drawer>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}
-      >
-        <div className={classes.drawerHeader} />
+      <Fragment>
         {
           props.pageContent
         }
-      </main>
+      </Fragment>
     </div>
   )
 }

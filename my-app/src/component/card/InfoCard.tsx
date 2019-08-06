@@ -1,0 +1,75 @@
+import React from 'react';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import clsx from 'clsx';
+
+interface Props {
+  title: string;
+  content: string;
+  imageHeight: number;
+  imageTrack: string;
+  disableActionButton?: boolean;
+}
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    card: {
+      maxWidth: 500,
+    },
+    centerHorizontal: {
+      margin: 'auto',
+      width: '100%'
+    },
+    contentHeight: {
+      minHeight: '120px'
+    },
+    borderTop: {
+      borderTop: '1px solid darkgray'
+    },
+    rightIcon: {
+      marginLeft: theme.spacing(1),
+    }
+  }));
+
+export default function RecipeReviewCard(props: Props) {
+  const classes = useStyles();
+
+  return (
+    <Card className={clsx(classes.card, classes.centerHorizontal)}>
+      <CardActionArea>
+        <CardMedia
+          component="img"
+          alt="Contemplative Reptile"
+          height={props.imageHeight}
+          image={props.imageTrack}
+          title="Contemplative Reptile"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            {props.title}
+          </Typography>
+          <Typography className={classes.contentHeight} variant="body2" color="textSecondary" component="p">
+            {props.content}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      {
+        props.disableActionButton ?
+          <CardActions className={classes.borderTop}>
+            <Button variant="contained" color="primary">
+              Więcej
+                <MoreIcon className={classes.rightIcon} />
+            </Button>
+          </CardActions>
+          : null
+      }
+    </Card>
+  );
+}
