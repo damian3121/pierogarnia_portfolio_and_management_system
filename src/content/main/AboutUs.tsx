@@ -28,7 +28,7 @@ export function AboutUs() {
             Zakupione zostały maszyny spełniające wszelkie wymogi sanitarne 
             oraz opierające się na najnowocześniejszych technologiach."
             imageHeight={250}
-            imageTrack="http://192.168.0.248:8887/pancakes-2020863_640.jpg"
+            imageTrack="../../static/image/jakosc.jpg"
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -38,7 +38,7 @@ export function AboutUs() {
             Korzystamy ze sprawdzonych receptur przekazywanych z pokolenia na pokolenie oraz dodając nutkę własnej twórczości 
             coby nasz produkt smakował jak najlepiej."
             imageHeight={250}
-            imageTrack="http://192.168.0.248:8887/pietruszka.jpg"
+            imageTrack="../../../static/image/gwarancja_smaku.jpg"
           />
         </Grid>
       </Grid>
