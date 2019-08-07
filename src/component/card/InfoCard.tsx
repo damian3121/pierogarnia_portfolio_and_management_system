@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   }));
 
-export default function RecipeReviewCard(props: Props) {
+export default function InfoCard(props: Props) {
   const classes = useStyles();
 
   return (
