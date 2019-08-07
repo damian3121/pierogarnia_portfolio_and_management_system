@@ -36,8 +36,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: '100px',
     paddingLeft: '50px',
     paddingRight: '50px',
-    paddingBottom: '100px',
-    height: '-webkit-fill-available'
+    paddingBottom: '100px'
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
@@ -87,9 +86,6 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
-  },
-  backgroundColor: {
-    backgroundColor: '#eeeeee'
   }
 }));
 
@@ -136,7 +132,7 @@ export function DrawerMenu(props: Props) {
   }
 
   return (
-    <div className={clsx(classes.root, classes.backgroundColor)}>
+    <div className={classes.root}>
       <CssBaseline />
       <AppBar
         position='fixed'

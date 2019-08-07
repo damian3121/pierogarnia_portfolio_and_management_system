@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
       margin: 'auto',
-      width: '50%'
+      width: '50%',
     }
   }),
 );
