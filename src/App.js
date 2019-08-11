@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { AboutUs } from '../src/content/main/AboutUs'
-import { Offer } from '../src/content/main/Offer'
+import { MainPage } from './content/main/MainPage'
+import { Offer } from './content/main/Offer'
 import { DrawerMenu } from './component/navigation/DrawerMenu';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <Router>
       <Route path="/o-nas" component={() => <DrawerMenu pageContent={AboutUs()}></DrawerMenu>} />
       <Route path="/oferta" component={() => <DrawerMenu pageContent={Offer()}></DrawerMenu>} />
+      <Route path="/" component={() => <DrawerMenu pageContent={MainPage()}></DrawerMenu>} />
     </Router>
   )
 }

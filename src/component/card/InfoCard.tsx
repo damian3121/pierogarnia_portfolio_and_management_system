@@ -12,10 +12,10 @@ import clsx from 'clsx';
 
 interface Props {
   title: string;
-  content: string;
+  content: any;
   imageHeight: number;
   imageTrack: string;
-  disableActionButton?: boolean;
+  redirectAfterAction?: string;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -56,14 +56,14 @@ export default function InfoCard(props: Props) {
             {props.title}
           </Typography>
           <Typography className={classes.contentHeight} variant="body2" color="textSecondary" component="p">
-            {props.content}
+            {props.content }
           </Typography>
         </CardContent>
       </CardActionArea>
       {
-        props.disableActionButton ?
+        props.redirectAfterAction ?
           <CardActions className={classes.borderTop}>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={() => location.assign(props.redirectAfterAction?props.redirectAfterAction:"")}>
               Więcej
                 <MoreIcon className={classes.rightIcon} />
             </Button>
