@@ -9,9 +9,9 @@ import { DrawerMenu } from './component/navigation/DrawerMenu';
 function App() {
   return (
     <Router>
-      <Route path="/o-nas" component={() => <DrawerMenu pageContent={AboutUs()}></DrawerMenu>} />
-      <Route path="/oferta" component={() => <DrawerMenu pageContent={Offer()}></DrawerMenu>} />
-      <Route path="/" component={() => <DrawerMenu pageContent={MainPage()}></DrawerMenu>} />
+        <Route path="/o-nas" component={() => <DrawerMenu pageContent={AboutUs()}></DrawerMenu>} />
+        <Route path="/oferta" component={() => <DrawerMenu pageContent={Offer()}></DrawerMenu>} />
+        <Route exact path="/" component={() => <DrawerMenu pageContent={MainPage()}></DrawerMenu>} />
     </Router>
   )
 }
