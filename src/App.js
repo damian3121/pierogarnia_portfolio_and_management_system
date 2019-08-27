@@ -6,6 +6,7 @@ import { MainPage } from './content/main/MainPage'
 import { Offer } from './content/main/Offer'
 import { PriceList } from './content/main/PriceList'
 import { DrawerMenu } from './component/navigation/DrawerMenu';
+import { GalleryPage } from './content/main/GalleryPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/o-nas" component={() => <DrawerMenu pageContent={AboutUs()}></DrawerMenu>} />
         <Route path="/oferta" component={() => <DrawerMenu pageContent={Offer()}></DrawerMenu>} />
         <Route exact path="/cennik" component={() => <DrawerMenu pageContent={PriceList()}></DrawerMenu>} />
+        <Route exact path="/galeria" component={() => <DrawerMenu pageContent={GalleryPage()}></DrawerMenu>} />
         <Route exact path="/" component={() => <DrawerMenu pageContent={MainPage()}></DrawerMenu>} />
     </Router>
   )
