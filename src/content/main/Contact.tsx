@@ -1,11 +1,13 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles, Paper, Typography, Grid } from '@material-ui/core';
 import { MailSenderForm } from './MailSenderForm';
+import { ContactInfoCard, VariantIcon, VariantIconArray } from '../../component/card/ContactInfoCard';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: theme.spacing(3, 2),
+      height: '100%',
     },
     center: {
       margin: '0 auto',
@@ -13,6 +15,27 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   }),
 );
+
+const variantIcon: VariantIconArray = {
+  item: [
+    {
+      itemText: "Pierogarnia Jeżowe",
+      variant: "home"
+    },
+    {
+      itemText: "Jeżowe 237, 37-430 Jeżowe (obok poczty)",
+      variant: "streetview"
+    },
+    {
+      itemText: "+48 889-425-312",
+      variant: "contactphone"
+    },
+    {
+      itemText: "pierogarniajezowe@gmail.com",
+      variant: "email"
+    }
+  ]
+}
 
 export function Contact() {
   const classes = useStyles();
@@ -33,6 +56,9 @@ export function Contact() {
             <Typography variant="h6" component="h3">
               Kontakt
             </Typography>
+            <ContactInfoCard
+              item={variantIcon.item}
+            />
           </Paper>
         </Grid>
         <Grid item xs={12} sm={12}>
