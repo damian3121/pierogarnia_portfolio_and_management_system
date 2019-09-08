@@ -1,18 +1,25 @@
+export enum Status {
+  INIT,
+  LOADING,
+  LOADED,
+  ERROR
+}
+
 interface RequestInit {
-  status: 'init';
+  status: Status.INIT;
 }
 
 interface RequestLoading {
-  status: 'loading';
+  status: Status.LOADING;
 }
 
-interface RequestLoaded<T> {
-  status: 'loaded';
+export interface RequestLoaded<T> {
+  status: Status.LOADED;
   payload: T;
 }
 
 interface RequestError {
-  status: 'error';
+  status: Status.ERROR;
   error: Error;
 }
 

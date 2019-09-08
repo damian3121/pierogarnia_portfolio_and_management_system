@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles, Paper, Typography, Grid, TextField, Button } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, Paper, Typography, Grid } from '@material-ui/core';
 import { MailSenderForm } from './MailSenderForm';
 
 const useStyles = makeStyles((theme: Theme) =>

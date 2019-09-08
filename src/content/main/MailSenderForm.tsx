@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { requestService } from '../../service/requestSender';
 import { FormControl, TextField, Button, CircularProgress, makeStyles, Theme, createStyles } from '@material-ui/core';
+import ActionSnackbar from '../../component/snackbar/ActionSnackbar';
+import { Status } from '../../service/requestService';
 
 interface MailSenderData {
   topicMsg: string;
@@ -35,8 +37,6 @@ export function MailSenderForm() {
     initialMailSenderData
   );
 
-  const [disabledButton, setDisabledButton] = useState(false);
-
   const { service, sendRequest } = requestService(initialMailSenderData, 'https://swapi.co/api/starships');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,11 +48,6 @@ export function MailSenderForm() {
   };
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    sendRequest(mailSenderData).then(() => setMailSenderData(initialMailSenderData));
-  };
-
-  const handleButtonSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
     sendRequest(mailSenderData).then(() => setMailSenderData(initialMailSenderData));
   };
@@ -110,16 +105,31 @@ export function MailSenderForm() {
           color="primary"
           type="submit"
           fullWidth={false}
-          disabled={service.status === 'loading'}
-          onSubmit={handleButtonSubmit}>
+          disabled={service.status === Status.LOADING}
+        >
           WYŚLIJ
-          {service.status === 'loading' &&
+          {service.status === Status.LOADING &&
             <CircularProgress size={24} color="secondary" className={classes.buttonProgress} />
           }
         </Button>
       </form>
-      {/* {service.status === 'loaded' && <div>Starship submitted</div> && setDisabledButton(false)} */}
-      {/* {service.status === 'error' && <div>Error message</div> && setDisabledButton(false)} */}
+      {
+        service.status === Status.LOADED && 
+          <ActionSnackbar 
+            status={service.status} 
+            content={"Wiadomość email została wysłana."}
+            variant="success"
+          />                
+      }
+      {
+        service.status === Status.ERROR && 
+          <ActionSnackbar 
+            status={service.status}
+            content={"Nie można wysłać wiadomości email."}
+            variant="error"
+          />
+      }
+
     </div>
   );
 };

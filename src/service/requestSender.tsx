@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { Request } from './requestService';
+import { Request, Status } from './requestService';
+import ActionSnackbar from '../component/snackbar/ActionSnackbar';
 
-interface Props{}
+interface Props { }
 
 export function requestService(props: Props, endpoint: string) {
   const [service, setService] = useState<Request<Props>>({
-    status: 'init'
+    status: Status.INIT
   });
 
   const sendRequest = (data: Props) => {
-    setService({ status: 'loading' });
+    setService({ status: Status.LOADING });
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
@@ -22,11 +23,11 @@ export function requestService(props: Props, endpoint: string) {
       })
         .then(response => response.json())
         .then(response => {
-          setService({ status: 'loaded', payload: response });
+          setService({ status: Status.LOADED, payload: response });
           resolve(response);
         })
         .catch(error => {
-          setService({ status: 'error', error });
+          setService({ status: Status.ERROR, error });
           reject(error);
         });
     });
