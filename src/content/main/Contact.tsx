@@ -1,7 +1,8 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles, Paper, Typography, Grid } from '@material-ui/core';
 import { MailSenderForm } from './MailSenderForm';
-import { ContactInfoCard, VariantIcon, VariantIconArray } from '../../component/card/ContactInfoCard';
+import { ContactInfoCard, VariantIconArray } from '../../component/card/ContactInfoCard';
+import { GoogleMapMarker } from '../../component/googleMap/GoogleMapMarker';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,7 +28,7 @@ const variantIcon: VariantIconArray = {
       variant: "streetview"
     },
     {
-      itemText: "+48 889-425-312",
+      itemText: "+48 889-425-321",
       variant: "contactphone"
     },
     {
@@ -66,6 +67,7 @@ export function Contact() {
             <Typography variant="h6" component="h3">
               Mapa dojazdu
             </Typography>
+            <GoogleMapMarker />
           </Paper>
         </Grid>
       </Grid>
