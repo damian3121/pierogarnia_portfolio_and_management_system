@@ -6,7 +6,7 @@ export function GoogleMapMarker() {
   const [center, setCenter] = useState({ lat: 50.3744918, lng: 22.1570696 });
   const [zoom, setZoom] = useState(14);
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
+    <div style={{ height: '60vh', width: '100%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyD3GRAEFFAfvQPYYlV2lUOC7rSSvwhejZs' }}
         defaultCenter={center}

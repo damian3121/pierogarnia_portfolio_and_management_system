@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme: Theme) =>
     center: {
       margin: '0 auto',
       width: '100%',
+    },
+    mapHeight: {
+      padding: theme.spacing(3, 2),
+      height: '100%',
     }
   }),
 );
@@ -63,7 +67,7 @@ export function Contact() {
           </Paper>
         </Grid>
         <Grid item xs={12} sm={12}>
-          <Paper className={classes.root}>
+          <Paper className={classes.mapHeight}>
             <Typography variant="h6" component="h3">
               Mapa dojazdu
             </Typography>
