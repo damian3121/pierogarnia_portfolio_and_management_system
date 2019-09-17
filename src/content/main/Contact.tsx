@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
     mapHeight: {
       padding: theme.spacing(3, 2),
       height: '100%',
-    }
+    },
   }),
 );
 

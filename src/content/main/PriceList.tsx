@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import { Theme, makeStyles, createStyles, Paper, Table, TableHead, TableRow, TableCell, TableBody, Typography } from '@material-ui/core';
+import ActionSnackbar from '../../component/snackbar/ActionSnackbar';
+import { Status } from '../../service/requestService';
 
 interface Product {
   lp: string;
@@ -154,6 +156,11 @@ export function PriceList() {
           ))}
         </TableBody>
       </Table>
+      <ActionSnackbar
+        status={Status.INIT}
+        content={"Jeśli nie widzisz którejś z kolumn, przesuń palcem po ekranie od prawej do lewej strony. Tabela przesunie się :)"}
+        variant="info"
+      />
     </Paper>
   )
 }

@@ -19,6 +19,9 @@ const useStyles = makeStyles({
   avatar: {
     backgroundColor: blue[100],
     color: blue[600],
+  },
+  textWrap: {
+    wordBreak: 'break-all'
   }
 });
 
@@ -49,7 +52,9 @@ export function ContactInfoCard(data: VariantIconArray) {
                 {convertPropsToIcon(item)}
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={item.itemText} />
+            <ListItemText
+              className={classes.textWrap} 
+              primary={item.itemText} />
           </ListItem>
         )
       }

@@ -68,7 +68,7 @@ export default function ActionSnackbar(props: ActionSnackbarI) {
         }}
         open={open}
         onClose={handleClose}
-        autoHideDuration={2000}
+        autoHideDuration={6000}
       >
         <SnackbarContent
           className={props.status === Status.ERROR ?
