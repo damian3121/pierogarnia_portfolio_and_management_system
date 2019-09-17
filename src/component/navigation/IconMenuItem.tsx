@@ -4,6 +4,7 @@ import LocalOffer from '@material-ui/icons/LocalOffer';
 import AttachMoney from '@material-ui/icons/AttachMoney';
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import Phone from '@material-ui/icons/Phone'
+import Home from '@material-ui/icons/Home';
 
 export function IconMenuItem(props: string) {
   switch (props) {
@@ -12,6 +13,7 @@ export function IconMenuItem(props: string) {
     case 'AttachMoney': return <AttachMoney />
     case 'PhotoCamera': return <PhotoCamera />
     case 'Phone': return <Phone />
+    case 'Home': return <Home />
     default: return <div></div>
   }
 

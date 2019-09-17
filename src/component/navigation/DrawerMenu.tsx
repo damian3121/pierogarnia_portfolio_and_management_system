@@ -95,6 +95,11 @@ export function DrawerMenu(props: Props) {
 
   const menuItem: Array<MenuItem> = [
     {
+      iconName: 'Home',
+      itemValue: 'Strona główna',
+      path: '/'
+    },
+    {
       iconName: 'SupervisedUserCircle',
       itemValue: 'O nas',
       path: '/o-nas'
