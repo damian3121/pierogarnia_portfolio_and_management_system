@@ -28,7 +28,7 @@ export function Offer() {
                     Prowadzimy również sklepik (Jeżowe 237), gdzie od poniedziałku do piątku można zakupić świeże obiady/wyroby. 
                     Pakujemy próżniowo co sprawi, że Państwa zakupy będą miały dłuższą datę ważności i 
                     będą wygodniejsze w przechowywaniu. Przy większych bądź stałych zamówieniach zapewniamy dowózna miejsce. 
-                    Oferujemy również
+                    Oferujemy również:
                 </p>
                 <ListParagraph content="przekąski oraz pierogi przygotowywane specjalnie na różne imprezy okolicznościowe(chrzciny, wesela, komunie) 
                                     np. kapuśniaki, parówki w cieście, paszteciki, krokiety etc" />

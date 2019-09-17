@@ -28,7 +28,7 @@ export function AboutUs() {
             Zakupione zostały maszyny spełniające wszelkie wymogi sanitarne 
             oraz opierające się na najnowocześniejszych technologiach."
             imageHeight={250}
-            imageTrack="https://imageshack.com/i/pnQnNdLOj"
+            imageTrack="http://vps730378.ovh.net/upfiles/o_nas_jakosc.jpg"
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -38,7 +38,7 @@ export function AboutUs() {
             Korzystamy ze sprawdzonych receptur przekazywanych z pokolenia na pokolenie oraz dodając nutkę własnej twórczości 
             coby nasz produkt smakował jak najlepiej."
             imageHeight={250}
-            imageTrack="https://imageshack.com/i/pma6PGSCj"
+            imageTrack="http://vps730378.ovh.net/upfiles/o_nas_gwarancja_smaku.jpg"
           />
         </Grid>
       </Grid>
