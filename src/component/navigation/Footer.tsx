@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: 'white'
     },
     labelColor: {
-      color: 'white'
+      color: 'white !important'
     },
     centerVertical: {
       margin: 'auto'
@@ -50,18 +50,21 @@ export function Footer() {
             <BottomNavigationAction
               className={classes.labelColor}
               label="Facebook"
-              icon={<Facebook className={classes.labelColor} />} 
-              onClick={() => location.assign('https://www.facebook.com/pierogarniajezowe')} />
-            <BottomNavigationAction
-              className={classes.labelColor}
-              label="Gmail"
-              icon={<Gmail className={classes.labelColor} />} 
-              onClick={() => location.assign('mailto:pierogarniajezowe@gmail.com')} />
+              icon={<Facebook className={classes.labelColor} />}
+              onClick={() => location.assign('https://www.facebook.com/pierogarniajezowe')}
+            />
             <BottomNavigationAction
               className={classes.labelColor}
               label="GoogleMaps"
-              icon={<GoogleMaps className={classes.labelColor} />} 
-              onClick={() => location.assign('https://www.google.com/maps/place/Pierogarnia/@50.3744918,22.1570696,15z/data=!4m2!3m1!1s0x0:0xd01d2d1cd8b42d59?sa=X&ved=2ahUKEwi6w_nFvu7jAhVhs4sKHbDFDI0Q_BIwCnoECA8QCA')} />              />
+              icon={<GoogleMaps className={classes.labelColor} />}
+              onClick={() => location.assign('https://www.google.com/maps/place/Pierogarnia/@50.3744918,22.1570696,15z/data=!4m2!3m1!1s0x0:0xd01d2d1cd8b42d59?sa=X&ved=2ahUKEwi6w_nFvu7jAhVhs4sKHbDFDI0Q_BIwCnoECA8QCA')}
+            />
+            <BottomNavigationAction
+              className={classes.labelColor}
+              label="Gmail"
+              icon={<Gmail className={classes.labelColor} />}
+              onClick={() => location.assign('mailto:pierogarniajezowe@gmail.com')}
+            />
           </BottomNavigation>
         </Grid>
       </Grid>
