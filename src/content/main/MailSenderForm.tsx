@@ -37,7 +37,7 @@ export function MailSenderForm() {
     initialMailSenderData
   );
 
-  const { service, sendRequest } = requestService(initialMailSenderData, 'https://swapi.co/api/starships');
+  const { service, sendRequest } = requestService(initialMailSenderData, 'http://51.91.97.233:8080/api/send-mail');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
