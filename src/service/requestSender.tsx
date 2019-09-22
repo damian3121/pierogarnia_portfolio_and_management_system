@@ -21,7 +21,7 @@ export function requestService(props: Props, endpoint: string) {
         body: JSON.stringify(data),
         headers
       })
-        .then(response => response.json())
+        .then(response => response.text())
         .then(response => {
           setService({ status: Status.LOADED, payload: response });
           resolve(response);
