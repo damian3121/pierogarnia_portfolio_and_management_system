@@ -37,7 +37,7 @@ export function MailSenderForm() {
     initialMailSenderData
   );
 
-  const { service, sendRequest } = requestService(initialMailSenderData, '/api/send-mails');
+  const { service, sendRequest } = requestService(initialMailSenderData, '/api/send-mail');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
