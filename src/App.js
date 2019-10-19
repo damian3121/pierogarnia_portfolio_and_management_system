@@ -8,6 +8,8 @@ import { PriceList } from './content/main/PriceList'
 import { DrawerMenu } from './component/navigation/DrawerMenu';
 import { GalleryPage } from './content/main/GalleryPage';
 import { Contact } from './content/main/Contact';
+import { Login } from './content/auth/Login';
+import { Users } from './content/user/Users';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route exact path="/cennik" component={() => <DrawerMenu pageContent={PriceList()}></DrawerMenu>} />
         <Route exact path="/galeria" component={() => <DrawerMenu pageContent={GalleryPage()}></DrawerMenu>} />
         <Route exact path="/kontakt" component={() => <DrawerMenu pageContent={Contact()}></DrawerMenu>} />
+        <Route exact path="/login" component={() => <DrawerMenu pageContent={Login()}></DrawerMenu>} />
+        <Route exact path="/users" component={() => <DrawerMenu pageContent={Users()}></DrawerMenu>} />
         <Route exact path="/" component={() => <DrawerMenu pageContent={MainPage()}></DrawerMenu>} />
     </Router>
   )

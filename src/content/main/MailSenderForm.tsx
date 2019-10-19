@@ -37,7 +37,7 @@ export function MailSenderForm() {
     initialMailSenderData
   );
 
-  const { service, sendRequest } = requestService(initialMailSenderData, '/api/send-mail');
+  const { service, sendRequest } = requestService(initialMailSenderData, 'http://localhost:8081/ssend-mail');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();

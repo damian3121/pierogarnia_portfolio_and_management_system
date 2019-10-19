@@ -123,6 +123,11 @@ export function DrawerMenu(props: Props) {
       iconName: 'Phone',
       itemValue: 'Kontakt',
       path: '/kontakt'
+    },
+    {
+      iconName: 'Login',
+      itemValue: 'Panel administracyjny',
+      path: '/login'
     }
   ]
 

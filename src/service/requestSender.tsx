@@ -21,8 +21,11 @@ export function requestService(props: Props, endpoint: string) {
         body: JSON.stringify(data),
         headers
       })
-        .then(response => response.text())
+        .then(response => response.json())
         .then(response => {
+          if(response.status == 401){
+               throw Promise.reject("Not success!");
+          }
           setService({ status: Status.LOADED, payload: response });
           resolve(response);
         })
