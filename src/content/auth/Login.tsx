@@ -61,11 +61,6 @@ export function Login() {
 
   const { service, sendRequest } = requestService(initialLoginData, 'http://localhost:8081/login');
 
-  // const data = http("https://jsonplaceholder.typicode.com/todos");
-  // const { foo, bar }  = await http().then(result => result.data);
-
-  // console.log("Dane: " + foo);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
     setLoginData(prev => ({
@@ -140,6 +135,7 @@ export function Login() {
                 content={"Zostałeś poprawnie zalogowany"}
                 variant="success"
               />
+              && sessionStorage.setItem("token", service.payload.token)
             }
             {
               service.status === Status.ERROR &&
@@ -148,9 +144,6 @@ export function Login() {
                 content={"Wystąpił błąd serwera lub zostały podane błędne dane."}
                 variant="error"
               />
-            }
-            {
-              console.log("Status: " + service.status)
             }
           </div>
         </Grid>

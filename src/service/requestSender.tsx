@@ -1,16 +1,14 @@
 import { useState } from 'react';
-import { Request, Status } from './requestService';
-import ActionSnackbar from '../component/snackbar/ActionSnackbar';
+import { Status } from './requestService';
 
-interface Props { }
-
-export function requestService(props: Props, endpoint: string) {
-  const [service, setService] = useState<Request<Props>>({
-    status: Status.INIT
+export function requestService(props: any, endpoint: string) {
+  const [service, setService] = useState({
+    status: Status.INIT,
+    payload: props.data
   });
 
-  const sendRequest = (data: Props) => {
-    setService({ status: Status.LOADING });
+  const sendRequest = (data: any) => {
+    setService({ status: Status.LOADING, payload: "" });
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/json; charset=utf-8');
@@ -19,18 +17,22 @@ export function requestService(props: Props, endpoint: string) {
       fetch(endpoint, {
         method: 'POST',
         body: JSON.stringify(data),
-        headers
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json',
+          'Authentication': `Bearer ${sessionStorage.getItem('token')}`,
+        }
       })
         .then(response => response.json())
         .then(response => {
-          if(response.status == 401){
-               throw Promise.reject("Not success!");
+          if (response.status == 401) {
+            throw Promise.reject("Not success!");
           }
           setService({ status: Status.LOADED, payload: response });
           resolve(response);
         })
         .catch(error => {
-          setService({ status: Status.ERROR, error });
+          setService({ status: Status.ERROR, payload: "" });
           reject(error);
         });
     });
