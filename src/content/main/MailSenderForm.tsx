@@ -27,17 +27,17 @@ export function MailSenderForm() {
   const classes = useStyles();
 
   const initialMailSenderData: MailSenderData = {
-    topicMsg: '',
-    name: '',
-    email: '',
-    message: ''
+    topicMsg: 'asd',
+    name: 'asd',
+    email: 'asd@o2.pl',
+    message: 'asd'
   }
 
   const [mailSenderData, setMailSenderData] = useState<MailSenderData>(
     initialMailSenderData
   );
 
-  const { service, sendRequest } = requestService(initialMailSenderData, 'http://localhost:8081/ssend-mail');
+  const { service, sendRequest } = requestService(initialMailSenderData, 'http://localhost:8081/send-mail');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
@@ -128,6 +128,9 @@ export function MailSenderForm() {
             content={"Nie można wysłać wiadomości email."}
             variant="error"
           />
+      }
+      {
+        console.log("Status: " + service.status)
       }
 
     </div>

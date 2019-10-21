@@ -129,13 +129,13 @@ export function Login() {
               </Button>
             </form>
             {
-              service.status === Status.LOADED &&
+              service.status === Status.LOADED
+              &&
               <ActionSnackbar
                 status={service.status}
                 content={"Zostałeś poprawnie zalogowany"}
                 variant="success"
               />
-              && sessionStorage.setItem("token", service.payload.token)
             }
             {
               service.status === Status.ERROR &&
@@ -144,6 +144,10 @@ export function Login() {
                 content={"Wystąpił błąd serwera lub zostały podane błędne dane."}
                 variant="error"
               />
+            }
+            {
+              service.status === Status.LOADED
+              && sessionStorage.setItem('token', service.payload.token)
             }
           </div>
         </Grid>
