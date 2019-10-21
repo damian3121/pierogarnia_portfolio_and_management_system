@@ -27,10 +27,10 @@ export function MailSenderForm() {
   const classes = useStyles();
 
   const initialMailSenderData: MailSenderData = {
-    topicMsg: 'asd',
-    name: 'asd',
-    email: 'asd@o2.pl',
-    message: 'asd'
+    topicMsg: '',
+    name: '',
+    email: '',
+    message: ''
   }
 
   const [mailSenderData, setMailSenderData] = useState<MailSenderData>(
