@@ -3,11 +3,12 @@ import {
   makeStyles, Theme, createStyles, Grid, Button,
   Typography, Avatar, CssBaseline, TextField, CircularProgress
 } from "@material-ui/core";
+import { Redirect } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import { Status } from '../../service/requestService';
 import ActionSnackbar from '../../component/snackbar/ActionSnackbar';
-import { requestService } from '../../service/requestSender';
+import { requestService } from '../../service/postResponseRequestSender';
 
 interface LoginData {
   username: String;
@@ -121,6 +122,7 @@ export function Login() {
                 color="primary"
                 disabled={service.status === Status.LOADING}
                 className={classes.submit}
+
               >
                 WYŚLIJ
                 {service.status === Status.LOADING &&
@@ -148,6 +150,11 @@ export function Login() {
             {
               service.status === Status.LOADED
               && sessionStorage.setItem('token', service.payload.token)
+            }
+
+            {service.status === Status.LOADED
+              &&
+              <Redirect to="/private">asdasd</Redirect>
             }
           </div>
         </Grid>

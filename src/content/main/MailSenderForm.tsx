@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { requestService } from '../../service/requestSender';
+import { requestService } from '../../service/postRequestSender';
 import { FormControl, TextField, Button, CircularProgress, makeStyles, Theme, createStyles } from '@material-ui/core';
 import ActionSnackbar from '../../component/snackbar/ActionSnackbar';
 import { Status } from '../../service/requestService';

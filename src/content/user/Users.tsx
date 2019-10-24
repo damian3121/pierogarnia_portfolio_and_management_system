@@ -5,7 +5,7 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
-import { requestService } from '../../service/requestSender';
+import { requestService } from '../../service/getRequestSender';
 import { Status } from '../../service/requestService';
 
 interface UserData {
@@ -104,6 +104,7 @@ export function Users() {
                 WYŚLIJ
                 {service.status === Status.LOADING &&
                   <CircularProgress size={24} color="secondary" />
+                  && console.log(sessionStorage.getItem('token'))
                 }
               </Button>
             </form>
