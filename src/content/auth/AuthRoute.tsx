@@ -1,7 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, useHistory } from 'react-router-dom';
-import { Login } from './Login';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { makeStyles, Theme, createStyles } from '@material-ui/core';
+import { DrawerMenu } from '../../component/navigation/DrawerMenu';
+import { Login } from './Login';
 
 interface Props {
 	pageContent(): any;
@@ -25,10 +26,11 @@ export function AuthRoute(props: Props) {
 
 	if (!sessionStorage.getItem('token')) {
 		return (
-			<Route exac path={props.path} component={() => props.pageContent()} />
+			<Router>
+				<Route exact path="/private" render={() => Login} />
+			</Router>
 		)
 	} else {
-		setTimeout(() => {}, 2000);
 		return (
 			<div className={classes.container}>
 				hej gówniaki xD

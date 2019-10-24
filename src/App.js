@@ -10,7 +10,6 @@ import { GalleryPage } from './content/main/GalleryPage';
 import { Contact } from './content/main/Contact';
 import { Login } from './content/auth/Login';
 import { Users } from './content/user/Users';
-import { AuthRoute } from './content/auth/AuthRoute';
 
 function App() {
   return (
@@ -23,9 +22,10 @@ function App() {
       <Route exact path="/login" component={() => <DrawerMenu pageContent={Login()}></DrawerMenu>} />
       <Route exact path="/users" component={() => <DrawerMenu pageContent={Users()}></DrawerMenu>} />
       <Route exact path="/" component={() => <DrawerMenu pageContent={MainPage()}></DrawerMenu>} />
-      <AuthRoute exact path="/private"
-        pageContent={() => <DrawerMenu pageContent={Login()}></DrawerMenu>}
-      />
+      {
+        sessionStorage.getItem("token") ?
+          <Route exact path="/private" component={() => <DrawerMenu pageContent={<div>hej gówniaki xDDDD</div>}></DrawerMenu>} /> : null
+      }
     </Router>
   )
 }
