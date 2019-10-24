@@ -28,6 +28,7 @@ export function AuthRoute(props: Props) {
 			<Route exac path={props.path} component={() => props.pageContent()} />
 		)
 	} else {
+		setTimeout(() => {}, 2000);
 		return (
 			<div className={classes.container}>
 				hej gówniaki xD

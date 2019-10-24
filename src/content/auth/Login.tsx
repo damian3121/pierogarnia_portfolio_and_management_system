@@ -154,7 +154,7 @@ export function Login() {
 
             {service.status === Status.LOADED
               &&
-              <Redirect to="/private">asdasd</Redirect>
+              <Redirect to="/private"></Redirect>
             }
           </div>
         </Grid>
