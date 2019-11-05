@@ -129,8 +129,6 @@ const rowValue: Array<Product> = [
 export function PriceList() {
   const classes = useStyles();
 
-  console.log(sessionStorage.getItem("token"));
-
   return (
     <Paper className={classes.root}>
       <Typography className={classes.tittlePadding} variant="h5" id="tableTitle">

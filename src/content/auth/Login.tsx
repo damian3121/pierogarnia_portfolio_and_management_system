@@ -3,12 +3,13 @@ import {
   makeStyles, Theme, createStyles, Grid, Button,
   Typography, Avatar, CssBaseline, TextField, CircularProgress
 } from "@material-ui/core";
-import { Redirect } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import { Status } from '../../service/requestService';
 import ActionSnackbar from '../../component/snackbar/ActionSnackbar';
 import { requestService } from '../../service/postResponseRequestSender';
+import InfoCard from '../../component/card/InfoCard';
+import { getSessionStorageItem } from '../../sessionStorageItem/getSessionStorageItem';
 
 interface LoginData {
   username: String;
@@ -60,7 +61,7 @@ export function Login() {
     initialLoginData
   );
 
-  const { service, sendRequest } = requestService(initialLoginData, 'http://localhost:8081/login');
+  const { service, sendRequest } = requestService(initialLoginData, 'http://www.pierogarniajezowe.pl:8080/api/login');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
@@ -73,7 +74,16 @@ export function Login() {
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     sendRequest(loginData).then(() => setLoginData(initialLoginData));
+    sessionStorage.setItem('username', loginData.username.toString());
   };
+
+  if (getSessionStorageItem('token')) {
+    return (
+      <InfoCard
+        title={'Witaj ' + getSessionStorageItem('username') + '!'}
+        content="Zostałeś poprawnie zalogowany do systemu! Aby zarządzać stroną przejdź do zakładki 'Panel administracyjny'. "
+      />)
+  }
 
   return (
     <div className={classes.root}>
@@ -148,13 +158,8 @@ export function Login() {
               />
             }
             {
-              service.status === Status.LOADED
-              && sessionStorage.setItem('token', service.payload.token)
-            }
-
-            {service.status === Status.LOADED
-              &&
-              <Redirect to="/private"></Redirect>
+              service.status === Status.LOADED &&
+              sessionStorage.setItem('token', service.payload.token)
             }
           </div>
         </Grid>

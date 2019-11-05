@@ -13,8 +13,8 @@ import clsx from 'clsx';
 interface Props {
   title: string;
   content: any;
-  imageHeight: number;
-  imageTrack: string;
+  imageHeight?: number;
+  imageTrack?: string;
   redirectAfterAction?: string;
 }
 
@@ -45,25 +45,28 @@ export default function InfoCard(props: Props) {
   return (
     <Card className={clsx(classes.card, classes.centerHorizontal)}>
       <CardActionArea>
-        <CardMedia
-          component="img"
-          alt="None"
-          height={props.imageHeight}
-          image={props.imageTrack}
-        />
+        {
+          props.imageTrack &&
+          <CardMedia
+            component="img"
+            alt="None"
+            height={props.imageHeight}
+            image={props.imageTrack}
+          />
+        }
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {props.title}
           </Typography>
           <Typography className={classes.contentHeight} variant="body2" color="textSecondary" component="p">
-            {props.content }
+            {props.content}
           </Typography>
         </CardContent>
       </CardActionArea>
       {
         props.redirectAfterAction ?
           <CardActions className={classes.borderTop}>
-            <Button variant="contained" color="primary" onClick={() => location.assign(props.redirectAfterAction?props.redirectAfterAction:"")}>
+            <Button variant="contained" color="primary" onClick={() => location.assign(props.redirectAfterAction ? props.redirectAfterAction : "")}>
               Więcej
                 <MoreIcon className={classes.rightIcon} />
             </Button>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { makeStyles, Theme, createStyles } from '@material-ui/core';
-import { DrawerMenu } from '../../component/navigation/DrawerMenu';
 import { Login } from './Login';
+import { getSessionStorageItem } from '../../sessionStorageItem/getSessionStorageItem';
 
 interface Props {
 	pageContent(): any;
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export function AuthRoute(props: Props) {
 	const classes = useStyles()
 
-	if (!sessionStorage.getItem('token')) {
+	if (!getSessionStorageItem('token')) {
 		return (
 			<Router>
 				<Route exact path="/private" render={() => Login} />

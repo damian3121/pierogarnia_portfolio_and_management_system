@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import React from 'react';
 import { Status } from './requestService';
-import ActionSnackbar from '../component/snackbar/ActionSnackbar';
+import { getSessionStorageItem } from '../sessionStorageItem/getSessionStorageItem';
 
 export function requestService(props: any, endpoint: string) {
 	const [service, setService] = useState({
@@ -21,7 +20,7 @@ export function requestService(props: any, endpoint: string) {
 				headers: {
 					'Content-Type': 'application/json',
 					'accept': 'application/json',
-					'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+					'Authorization': `Bearer ${getSessionStorageItem('token')}`,
 				}
 			})
 				.then(response => response)

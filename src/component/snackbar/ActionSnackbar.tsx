@@ -11,7 +11,7 @@ import { Status } from '../../service/requestService';
 export interface ActionSnackbarI {
   content: string;
   variant: keyof typeof variantIcon;
-  status: Status;
+  status?: Status;
 }
 
 const useStyles = makeStyles((theme: Theme) =>

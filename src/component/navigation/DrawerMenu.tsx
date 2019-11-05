@@ -15,13 +15,21 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import LockClose from '@material-ui/icons/Lock';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import { IconMenuItem } from './IconMenuItem';
 import { Footer } from './Footer';
+import { Button } from '@material-ui/core';
+import { LoginChecker } from '../../sessionStorageItem/LoginChecker';
+import { getSessionStorageItem } from '../../sessionStorageItem/getSessionStorageItem';
+import ActionSnackbar from '../snackbar/ActionSnackbar';
+import { Status } from '../../service/requestService';
 
 interface MenuItem {
   iconName: string;
   itemValue: string;
   path: string;
+  permission: boolean;
 }
 
 interface Props {
@@ -86,7 +94,12 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
-  }
+  },
+  floatRight: {
+    position: 'absolute',
+    right: '0px',
+    marginRight: '50px',
+  },
 }));
 
 export function DrawerMenu(props: Props) {
@@ -97,41 +110,50 @@ export function DrawerMenu(props: Props) {
     {
       iconName: 'Home',
       itemValue: 'Strona główna',
-      path: '/'
+      path: '/',
+      permission: true,
     },
     {
       iconName: 'SupervisedUserCircle',
       itemValue: 'O nas',
-      path: '/o-nas'
+      path: '/o-nas',
+      permission: true,
     },
     {
       iconName: 'LocalOffer',
       itemValue: 'Oferta',
-      path: '/oferta'
+      path: '/oferta',
+      permission: true,
     },
     {
       iconName: 'AttachMoney',
       itemValue: 'Cennik',
-      path: '/cennik'
+      path: '/cennik',
+      permission: true,
     },
     {
       iconName: 'PhotoCamera',
       itemValue: 'Galeria',
-      path: '/galeria'
+      path: '/galeria',
+      permission: true,
     },
     {
       iconName: 'Phone',
       itemValue: 'Kontakt',
-      path: '/kontakt'
+      path: '/kontakt',
+      permission: true,
     },
     {
       iconName: 'Login',
       itemValue: 'Panel administracyjny',
-      path: '/login'
+      path: '/admin',
+      permission: LoginChecker('token'),
     }
   ]
 
   const [open, setOpen] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const checkLogin = LoginChecker('token');
 
   function handleDrawerOpen() {
     setOpen(true)
@@ -139,6 +161,10 @@ export function DrawerMenu(props: Props) {
 
   function handleDrawerClose() {
     setOpen(false)
+  }
+
+  function handleSnackbarShow() {
+    setShowSnackbar(true)
   }
 
   return (
@@ -161,6 +187,25 @@ export function DrawerMenu(props: Props) {
           <Typography variant='h6' noWrap>
             Pierogarnia Jeżowe
           </Typography>
+          {
+            checkLogin ?
+              <Button
+                color="secondary"
+                className={classes.floatRight}
+                variant="contained"
+                onClick={handleSnackbarShow}
+              >
+                <AccountCircle></AccountCircle>
+              </Button> :
+              <Button
+                color="secondary"
+                onClick={() => window.location.replace("/login")}
+                className={classes.floatRight}
+                variant="contained"
+              >
+                <LockClose></LockClose>
+              </Button>
+          }
         </Toolbar>
       </AppBar>
       <Drawer
@@ -179,14 +224,15 @@ export function DrawerMenu(props: Props) {
         <Divider />
         <List>
           {menuItem.map((item) => (
-            <ListItem button key={item.itemValue} onClick={() => location.assign(item.path)}>
-              <ListItemIcon >
-                {
-                  IconMenuItem(item.iconName)
-                }
-              </ListItemIcon>
-              <ListItemText primary={item.itemValue} />
-            </ListItem>
+            item.permission ?
+              <ListItem button key={item.itemValue} onClick={() => location.assign(item.path)}>
+                <ListItemIcon >
+                  {
+                    IconMenuItem(item.iconName)
+                  }
+                </ListItemIcon>
+                <ListItemText primary={item.itemValue} />
+              </ListItem> : null
           ))}
         </List>
       </Drawer>
@@ -194,7 +240,15 @@ export function DrawerMenu(props: Props) {
         {
           props.pageContent
         }
-        <Footer/>
+        <Footer />
+        {
+          showSnackbar &&
+          <ActionSnackbar
+            status={Status.LOADED}
+            content={"Jesteś zalogowany jako " + getSessionStorageItem('username')}
+            variant="success"
+          />
+        }
       </Fragment>
     </div>
   )

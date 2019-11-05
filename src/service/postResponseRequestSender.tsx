@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Status } from './requestService';
+import { getSessionStorageItem } from '../sessionStorageItem/getSessionStorageItem';
 
 export function requestService(props: any, endpoint: string) {
   const [service, setService] = useState({
@@ -10,9 +11,6 @@ export function requestService(props: any, endpoint: string) {
   const sendRequest = (data: any) => {
     setService({ status: Status.LOADING, payload: "" });
 
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json; charset=utf-8');
-
     return new Promise((resolve, reject) => {
       fetch(endpoint, {
         method: 'POST',
@@ -20,12 +18,12 @@ export function requestService(props: any, endpoint: string) {
         headers: {
           'Content-Type': 'application/json',
           'accept': 'application/json',
-          'Authentication': `Bearer ${sessionStorage.getItem('token')}`,
+          'Authentication': `Bearer ${getSessionStorageItem('token')}`,
         }
       })
         .then(response => response.json())
         .then(response => {
-          if (response.status == 401) {
+          if (response.status > 400 || response.status < 500) {
             throw Promise.reject("Not success!");
           }
           setService({ status: Status.LOADED, payload: response });

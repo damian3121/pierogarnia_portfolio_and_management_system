@@ -64,7 +64,7 @@ export function Users() {
     initialUserData
   );
 
-  const { service, sendRequest } = requestService(initialUserData, 'http://localhost:8081/users');
+  const { service, sendRequest } = requestService(initialUserData, 'http://www.pierogarniajezowe.pl:8080/api/users');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
@@ -104,7 +104,6 @@ export function Users() {
                 WYŚLIJ
                 {service.status === Status.LOADING &&
                   <CircularProgress size={24} color="secondary" />
-                  && console.log(sessionStorage.getItem('token'))
                 }
               </Button>
             </form>
