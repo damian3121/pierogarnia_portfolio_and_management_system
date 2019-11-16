@@ -35,9 +35,6 @@ export function Footer() {
   return (
     <div className={classes.footerFixed}>
       <Grid container spacing={3}>
-        <Grid item xs={6} className={classes.centerVertical}>
-          © 2019, #PierogarniaJeżowe, All rights reserved
-        </Grid>
         <Grid item xs={6}>
           <BottomNavigation
             value={value}
@@ -66,6 +63,9 @@ export function Footer() {
               onClick={() => location.assign('mailto:pierogarniajezowe@gmail.com')}
             />
           </BottomNavigation>
+        </Grid>
+        <Grid item xs={6} className={classes.centerVertical}>
+          © 2019, #PierogarniaJeżowe, All rights reserved
         </Grid>
       </Grid>
     </div>

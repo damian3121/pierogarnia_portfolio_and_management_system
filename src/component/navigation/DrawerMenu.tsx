@@ -16,10 +16,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import LockClose from '@material-ui/icons/Lock';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import ConfirmationNumber from '@material-ui/icons/ConfirmationNumber';
 import { IconMenuItem } from './IconMenuItem';
 import { Footer } from './Footer';
-import { Button } from '@material-ui/core';
+import { Fab } from '@material-ui/core';
 import { LoginChecker } from '../../sessionStorageItem/LoginChecker';
 import { getSessionStorageItem } from '../../sessionStorageItem/getSessionStorageItem';
 import ActionSnackbar from '../snackbar/ActionSnackbar';
@@ -42,9 +42,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     paddingTop: '100px',
-    paddingLeft: '50px',
-    paddingRight: '50px',
-    paddingBottom: '100px'
+    paddingLeft: '15px',
+    paddingRight: '15px',
+    paddingBottom: '100px',
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
@@ -98,8 +98,12 @@ const useStyles = makeStyles(theme => ({
   floatRight: {
     position: 'absolute',
     right: '0px',
-    marginRight: '50px',
+    marginRight: '15px',
   },
+  toolbarPadding: {
+    paddingRight: '10px',
+    paddingLeft: '10px',
+  }
 }));
 
 export function DrawerMenu(props: Props) {
@@ -176,7 +180,7 @@ export function DrawerMenu(props: Props) {
           [classes.appBarShift]: open
         })}
       >
-        <Toolbar>
+        <Toolbar className={classes.toolbarPadding}>
           <IconButton
             color='inherit'
             onClick={handleDrawerOpen}
@@ -189,22 +193,22 @@ export function DrawerMenu(props: Props) {
           </Typography>
           {
             checkLogin ?
-              <Button
+              <Fab
                 color="secondary"
                 className={classes.floatRight}
-                variant="contained"
+                size='small'
                 onClick={handleSnackbarShow}
               >
-                <AccountCircle></AccountCircle>
-              </Button> :
-              <Button
+                <ConfirmationNumber></ConfirmationNumber>
+              </Fab> :
+              <Fab
                 color="secondary"
                 onClick={() => window.location.replace("/login")}
                 className={classes.floatRight}
-                variant="contained"
+                size='small'
               >
                 <LockClose></LockClose>
-              </Button>
+              </Fab>
           }
         </Toolbar>
       </AppBar>
