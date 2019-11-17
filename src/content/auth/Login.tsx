@@ -10,6 +10,7 @@ import ActionSnackbar from '../../component/snackbar/ActionSnackbar';
 import { requestService } from '../../service/postResponseRequestSender';
 import InfoCard from '../../component/card/InfoCard';
 import { getSessionStorageItem } from '../../sessionStorageItem/getSessionStorageItem';
+import { setSessionStorageItem } from '../../sessionStorageItem/setSessionStorageItem';
 
 interface LoginData {
   username: String;
@@ -74,7 +75,7 @@ export function Login() {
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     sendRequest(loginData).then(() => setLoginData(initialLoginData));
-    sessionStorage.setItem('username', loginData.username.toString());
+    setSessionStorageItem('username', loginData.username.toString());
   };
 
   if (getSessionStorageItem('token')) {
@@ -134,7 +135,7 @@ export function Login() {
                 className={classes.submit}
 
               >
-                WYŚLIJ
+                zaloguj się
                 {service.status === Status.LOADING &&
                   <CircularProgress size={24} color="secondary" />
                 }
@@ -159,7 +160,7 @@ export function Login() {
             }
             {
               service.status === Status.LOADED &&
-              sessionStorage.setItem('token', service.payload.token)
+              setSessionStorageItem('token', service.payload.token)
             }
           </div>
         </Grid>

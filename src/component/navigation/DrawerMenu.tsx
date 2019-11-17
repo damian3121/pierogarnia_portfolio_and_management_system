@@ -19,11 +19,12 @@ import LockClose from '@material-ui/icons/Lock';
 import ConfirmationNumber from '@material-ui/icons/ConfirmationNumber';
 import { IconMenuItem } from './IconMenuItem';
 import { Footer } from './Footer';
-import { Fab } from '@material-ui/core';
+import { Fab, Menu } from '@material-ui/core';
 import { LoginChecker } from '../../sessionStorageItem/LoginChecker';
-import { getSessionStorageItem } from '../../sessionStorageItem/getSessionStorageItem';
-import ActionSnackbar from '../snackbar/ActionSnackbar';
-import { Status } from '../../service/requestService';
+import Edit from '@material-ui/icons/Edit';
+import ExitToApp from '@material-ui/icons/ExitToApp';
+import MenuItem from '@material-ui/core/MenuItem';
+import { setSessionStorageItem } from '../../sessionStorageItem/setSessionStorageItem';
 
 interface MenuItem {
   iconName: string;
@@ -156,8 +157,9 @@ export function DrawerMenu(props: Props) {
   ]
 
   const [open, setOpen] = useState(false);
-  const [showSnackbar, setShowSnackbar] = useState(false);
   const checkLogin = LoginChecker('token');
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const openBarMenu = Boolean(anchorEl);
 
   function handleDrawerOpen() {
     setOpen(true)
@@ -167,9 +169,19 @@ export function DrawerMenu(props: Props) {
     setOpen(false)
   }
 
-  function handleSnackbarShow() {
-    setShowSnackbar(true)
+  const logout = () => {
+    location.assign("/login")
+    sessionStorage.clear();
+    setAnchorEl(null);
   }
+
+  const handleCloseBarMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleBarMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
   return (
     <div className={classes.root}>
@@ -193,21 +205,54 @@ export function DrawerMenu(props: Props) {
           </Typography>
           {
             checkLogin ?
-              <Fab
-                color="secondary"
-                className={classes.floatRight}
-                size='small'
-                onClick={handleSnackbarShow}
-              >
-                <ConfirmationNumber></ConfirmationNumber>
-              </Fab> :
+              <Fragment>
+                <Fab
+                  color="secondary"
+                  className={classes.floatRight}
+                  size='small'
+                  onClick={handleBarMenu}
+                >
+                  <ConfirmationNumber />
+                </Fab>
+                <Menu
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={openBarMenu}
+                  onClose={handleCloseBarMenu}
+                >
+                  <MenuItem onClick={handleCloseBarMenu}>
+                    <IconButton
+                      color="inherit"
+                    >
+                      <Edit />
+                    </IconButton>
+                    Edytuj swoje dane
+                  </MenuItem>
+                  <MenuItem onClick={logout}>
+                    <IconButton
+                      color="inherit"
+                    >
+                      <ExitToApp />
+                    </IconButton>
+                    Wyloguj się
+                  </MenuItem>
+                </Menu>
+              </Fragment> :
               <Fab
                 color="secondary"
                 onClick={() => window.location.replace("/login")}
                 className={classes.floatRight}
                 size='small'
               >
-                <LockClose></LockClose>
+                <LockClose />
               </Fab>
           }
         </Toolbar>
@@ -245,14 +290,6 @@ export function DrawerMenu(props: Props) {
           props.pageContent
         }
         <Footer />
-        {
-          showSnackbar &&
-          <ActionSnackbar
-            status={Status.LOADED}
-            content={"Jesteś zalogowany jako " + getSessionStorageItem('username')}
-            variant="success"
-          />
-        }
       </Fragment>
     </div>
   )
