@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import {
-  makeStyles, Theme, createStyles, Grid, Button,
-  Typography, Avatar, CssBaseline, TextField, CircularProgress
+  makeStyles, Theme, createStyles, Grid,
+  Typography, Avatar, CssBaseline, TextField
 } from "@material-ui/core";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import { Status } from '../../service/requestService';
-import ActionSnackbar from '../../component/snackbar/ActionSnackbar';
 import { requestService } from '../../service/postResponseRequestSender';
 import InfoCard from '../../component/card/InfoCard';
 import { getSessionStorageItem } from '../../sessionStorageItem/getSessionStorageItem';
 import { setSessionStorageItem } from '../../sessionStorageItem/setSessionStorageItem';
+import { ButtonForm } from '../../component/form/FormButton';
 
 interface LoginData {
   username: String;
@@ -126,38 +126,14 @@ export function Login() {
                 id="password"
                 autoComplete="current-password"
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                disabled={service.status === Status.LOADING}
-                className={classes.submit}
-
-              >
-                zaloguj się
-                {service.status === Status.LOADING &&
-                  <CircularProgress size={24} color="secondary" />
-                }
-              </Button>
+              <ButtonForm
+                errorMessage="Wystąpił błąd serwera lub zostały podane błędne dane"
+                successMessage="Zostałeś poprawnie zalogowany"
+                textButton="Zaloguj się"
+                service={service}
+                fullWidth={true}
+              />
             </form>
-            {
-              service.status === Status.LOADED
-              &&
-              <ActionSnackbar
-                status={service.status}
-                content={"Zostałeś poprawnie zalogowany"}
-                variant="success"
-              />
-            }
-            {
-              service.status === Status.ERROR &&
-              <ActionSnackbar
-                status={service.status}
-                content={"Wystąpił błąd serwera lub zostały podane błędne dane."}
-                variant="error"
-              />
-            }
             {
               service.status === Status.LOADED &&
               setSessionStorageItem('token', service.payload.token)

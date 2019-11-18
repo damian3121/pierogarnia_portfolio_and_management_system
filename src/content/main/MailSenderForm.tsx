@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { requestService } from '../../service/postRequestSender';
-import { FormControl, TextField, Button, CircularProgress, makeStyles, Theme, createStyles } from '@material-ui/core';
-import ActionSnackbar from '../../component/snackbar/ActionSnackbar';
-import { Status } from '../../service/requestService';
+import { FormControl, TextField, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { ButtonForm } from '../../component/form/FormButton';
 
 interface MailSenderData {
   topicMsg: string;
@@ -24,8 +23,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export function MailSenderForm() {
-  const classes = useStyles();
-
   const initialMailSenderData: MailSenderData = {
     topicMsg: '',
     name: '',
@@ -100,35 +97,13 @@ export function MailSenderForm() {
             required={true}
           />
         </FormControl>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          fullWidth={false}
-          disabled={service.status === Status.LOADING}
-        >
-          WYŚLIJ
-          {service.status === Status.LOADING &&
-            <CircularProgress size={24} color="secondary" className={classes.buttonProgress} />
-          }
-        </Button>
+        <ButtonForm
+          errorMessage="Wiadomość e-mail nie została wysłana. Spróbuj ponownie"
+          successMessage="Wiadomość e-mail została wysłana poprawnie"
+          textButton="Wyślij"
+          service={service}
+        />
       </form>
-      {
-        service.status === Status.LOADED && 
-          <ActionSnackbar 
-            status={service.status} 
-            content={"Wiadomość email została wysłana."}
-            variant="success"
-          />                
-      }
-      {
-        service.status === Status.ERROR && 
-          <ActionSnackbar 
-            status={service.status}
-            content={"Nie można wysłać wiadomości email."}
-            variant="error"
-          />
-      }
     </div>
   );
 };
