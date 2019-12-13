@@ -19,26 +19,20 @@ import LockClose from '@material-ui/icons/Lock';
 import ConfirmationNumber from '@material-ui/icons/ConfirmationNumber';
 import { IconMenuItem } from './IconMenuItem';
 import { Footer } from './Footer';
-import { Fab, Menu, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@material-ui/core';
+import { Fab, Menu, Dialog, DialogTitle, DialogContent, withStyles } from '@material-ui/core';
 import { LoginChecker } from '../../sessionStorageItem/LoginChecker';
 import Edit from '@material-ui/icons/Edit';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import MenuItem from '@material-ui/core/MenuItem';
-import { ButtonForm } from '../form/FormButton';
-import { requestService } from '../../service/postRequestSender';
-import { Status } from '../../service/requestService';
+import { ChangePasswordForm } from '../../content/user/ChangePasswordForm';
+import Cancel from '@material-ui/icons/Cancel';
+import { DialogTitleProps } from '@material-ui/core/DialogTitle';
 
 interface MenuItem {
   iconName: string;
   itemValue: string;
   path: string;
   permission: boolean;
-}
-
-interface PasswordChange {
-  oldPassword: string;
-  newPassword: string;
-  repeatNewPassword: string;
 }
 
 interface Props {
@@ -168,23 +162,14 @@ export function DrawerMenu(props: Props) {
     }
   ]
 
-  const initialPasswordChange: PasswordChange = {
-    newPassword: '',
-    oldPassword: '',
-    repeatNewPassword: '',
-  };
-
-  const [passwordChange, setPasswordChange] = useState<PasswordChange>(
-    initialPasswordChange
-  );
-
-  const { service, sendRequest } = requestService(initialPasswordChange, 'http://www.pierogarniajezowe.pl:8080/api/save-password');
-
   const [open, setOpen] = useState(false);
   const checkLogin = LoginChecker('token');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openBarMenu = Boolean(anchorEl);
-  const [openChangePasswordModal, setOpenChangePasswordModal] = React.useState(false);
+  const [openChangePasswordModal, setOpenChangePasswordModal] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const closeModal = () => setOpenChangePasswordModal(false);
 
   function handleDrawerOpen() {
     setOpen(true)
@@ -208,32 +193,10 @@ export function DrawerMenu(props: Props) {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClickChangePasswordModalOpen = () => {
-    setAnchorEl(null);
-    setPasswordChange(initialPasswordChange)
-    service.status = Status.INIT
-    setOpenChangePasswordModal(true);
-  };
   const handleChangePasswordModalClose = () => {
     setAnchorEl(null);
     setOpenChangePasswordModal(false);
   };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.persist();
-    setPasswordChange(prev => ({
-      ...prev,
-      [event.target.name]: event.target.value,
-    }));
-  };
-
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    sendRequest(passwordChange)
-      .then(() => setPasswordChange(initialPasswordChange))
-  };
-
-  console.log(service.status)
 
   return (
     <div className={classes.root}>
@@ -280,7 +243,7 @@ export function DrawerMenu(props: Props) {
                   open={openBarMenu}
                   onClose={handleCloseBarMenu}
                 >
-                  <MenuItem onClick={handleClickChangePasswordModalOpen}>
+                  <MenuItem onClick={() => setOpenChangePasswordModal(true)}>
                     <IconButton
                       color="inherit"
                     >
@@ -344,52 +307,13 @@ export function DrawerMenu(props: Props) {
         <Footer />
       </Fragment>
       <div>
-        <Dialog onClose={handleChangePasswordModalClose} open={openChangePasswordModal}>
-          <DialogTitle>Zmień hasło</DialogTitle>
-          <DialogContent dividers>
-            <form className={classes.form} onSubmit={handleFormSubmit}>
-              <TextField
-                variant="filled"
-                margin="normal"
-                required
-                fullWidth
-                label="Stare hasło"
-                name="oldPassword"
-                onChange={handleChange}
-                value={passwordChange.oldPassword}
-                type="password"
-              />
-              <TextField
-                variant="filled"
-                margin="normal"
-                required
-                fullWidth
-                name="newPassword"
-                onChange={handleChange}
-                value={passwordChange.newPassword}
-                label="Wpisz nowe hasło"
-                type="password"
-              />
-              <TextField
-                variant="filled"
-                margin="normal"
-                required
-                fullWidth
-                name="repeatNewPassword"
-                onChange={handleChange}
-                value={passwordChange.repeatNewPassword}
-                label="Powtórz nowe hasło"
-                type="password"
-              />
-              <ButtonForm
-                errorMessage="Błędnie podane stare hasło lub nowe hasła się nie zgadzają"
-                successMessage="Hasło zostało zmienione"
-                textButton="Zmień hasło"
-                service={service}
-              />
-            </form>
-          </DialogContent>
-        </Dialog>
+        {/* <Dialog onClose={handleChangePasswordModalClose} open={openChangePasswordModal}> */}
+          {/* <DialogContent dividers></DialogContent> */}
+          <ChangePasswordForm
+            isShowing={openChangePasswordModal}
+            closeModal={closeModal}
+          />
+        {/* </Dialog> */}
       </div>
     </div>
   )

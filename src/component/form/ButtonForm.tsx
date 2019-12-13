@@ -10,6 +10,7 @@ interface Props {
   errorMessage: string;
   textButton: string;
   fullWidth?: boolean | null;
+  onClick?: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,6 +43,7 @@ export function ButtonForm(props: Props) {
         className={clsx(classes.toRight, props.fullWidth?classes.fullWidth:null)}
         fullWidth={false}
         disabled={props.service.status === Status.LOADING}
+        onClick={() => props.onClick}
       >
         {props.textButton}
         {props.service.status === Status.LOADING &&

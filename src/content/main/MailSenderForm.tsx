@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { requestService } from '../../service/postRequestSender';
 import { FormControl, TextField, makeStyles, Theme, createStyles } from '@material-ui/core';
-import { ButtonForm } from '../../component/form/FormButton';
+import { ButtonForm } from '../../component/form/ButtonForm';
 
 interface MailSenderData {
   topicMsg: string;

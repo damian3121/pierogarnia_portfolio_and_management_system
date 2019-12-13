@@ -26,6 +26,7 @@
 #root{
   height: -webkit-fill-available;
   background-color: #eeeeee;
+  display: grid;
 }
 
 @keyframes App-logo-spin {

@@ -10,7 +10,7 @@ import { requestService } from '../../service/postResponseRequestSender';
 import InfoCard from '../../component/card/InfoCard';
 import { getSessionStorageItem } from '../../sessionStorageItem/getSessionStorageItem';
 import { setSessionStorageItem } from '../../sessionStorageItem/setSessionStorageItem';
-import { ButtonForm } from '../../component/form/FormButton';
+import { ButtonForm } from '../../component/form/ButtonForm';
 
 interface LoginData {
   username: String;
