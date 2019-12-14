@@ -10,6 +10,7 @@ import { GalleryPage } from './content/main/GalleryPage';
 import { Contact } from './content/main/Contact';
 import { Login } from './content/auth/Login';
 import { Users } from './content/user/Users';
+import { AdminMenuPage } from './content/admin/AdminMenuPage'
 import { getSessionStorageItem } from './sessionStorageItem/getSessionStorageItem';
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
         <Route exact path="/" component={() => <DrawerMenu pageContent={MainPage()}></DrawerMenu>} />
         {
           getSessionStorageItem('token') ?
-            <Route exact path="/admin" component={() => <DrawerMenu pageContent={AboutUs()}></DrawerMenu>} /> : null
+            <Route exact path="/admin" component={() => <DrawerMenu pageContent={AdminMenuPage()}></DrawerMenu>} /> : null
         }
       </Switch>
     </Router>
