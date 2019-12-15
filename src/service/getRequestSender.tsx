@@ -8,6 +8,8 @@ export function requestService(props: any, endpoint: string) {
 		payload: props.data
 	});
 
+	const [prod, setProd] = useState({});
+
 	const sendRequest = (data: any) => {
 		setService({ status: Status.LOADING, payload: "" });
 
@@ -23,7 +25,7 @@ export function requestService(props: any, endpoint: string) {
 					'Authorization': `Bearer ${getSessionStorageItem('token')}`,
 				}
 			})
-				.then(response => response)
+				.then(response => response.json())
 				.then(response => {
 					if (response.status == 401) {
 						throw Promise.reject("Not success!");

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AboutUs } from '../src/content/main/AboutUs'
@@ -11,6 +11,7 @@ import { Contact } from './content/main/Contact';
 import { Login } from './content/auth/Login';
 import { Users } from './content/user/Users';
 import { AdminMenuPage } from './content/admin/AdminMenuPage'
+import { ProductManagementPage } from './content/salesManagement/ProductManagementPage'
 import { getSessionStorageItem } from './sessionStorageItem/getSessionStorageItem';
 
 function App() {
@@ -26,8 +27,12 @@ function App() {
         <Route exact path="/users" component={() => <DrawerMenu pageContent={Users()}></DrawerMenu>} />
         <Route exact path="/" component={() => <DrawerMenu pageContent={MainPage()}></DrawerMenu>} />
         {
-          getSessionStorageItem('token') ?
-            <Route exact path="/admin" component={() => <DrawerMenu pageContent={AdminMenuPage()}></DrawerMenu>} /> : null
+          getSessionStorageItem('token') ? (
+            <Fragment>
+              <Route exact path="/admin" component={() => <DrawerMenu pageContent={AdminMenuPage()}></DrawerMenu>} />
+              <Route exact path="/products" component={() => <DrawerMenu pageContent={ProductManagementPage()}></DrawerMenu>} />
+            </Fragment>)
+            : null
         }
       </Switch>
     </Router>

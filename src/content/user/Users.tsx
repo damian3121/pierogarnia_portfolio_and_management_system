@@ -52,15 +52,15 @@ const useStyles = makeStyles((theme: Theme) =>
 export function Users() {
   const classes = useStyles()
 
-  const initialUserData: UserData = {
+  const initialUserData: Array<UserData> = [{
     id: 0,
     password: '',
     username: '',
     dateTime: '',
     jwtToken: ''
-  };
+  }];
 
-  const [userData, setUserData] = useState<UserData>(
+  const [userData, setUserData] = useState<Array<UserData>>(
     initialUserData
   );
 
