@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Status } from './requestService';
 import { getSessionStorageItem } from '../sessionStorageItem/getSessionStorageItem';
+import { urlConfig } from '../Constants';
 
 export function requestService(props: any, endpoint: string) {
   const [service, setService] = useState({
@@ -12,7 +13,7 @@ export function requestService(props: any, endpoint: string) {
     setService({ status: Status.LOADING, payload: "" });
 
     return new Promise((resolve, reject) => {
-      fetch(endpoint, {
+      fetch(urlConfig.url.API_URL + endpoint, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {

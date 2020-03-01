@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { Status } from './requestService';
 import { getSessionStorageItem } from '../sessionStorageItem/getSessionStorageItem';
+import { urlConfig } from '../Constants';
 
 export function requestService(props: any, endpoint: string) {
 	const [service, setService] = useState({
 		status: Status.INIT,
 		payload: props.data
 	});
-
-	const [prod, setProd] = useState({});
 
 	const sendRequest = (data: any) => {
 		setService({ status: Status.LOADING, payload: "" });
@@ -17,12 +16,12 @@ export function requestService(props: any, endpoint: string) {
 		headers.append('Content-Type', 'application/json; charset=utf-8');
 
 		return new Promise((resolve, reject) => {
-			fetch(endpoint, {
+			fetch(urlConfig.url.API_URL + endpoint, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
 					'accept': 'application/json',
-					'Authorization': `Bearer ${getSessionStorageItem('token')}`,
+					'Authorization': `Bearer ${getSessionStorageItem('token')}`
 				}
 			})
 				.then(response => response.json())

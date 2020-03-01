@@ -15,6 +15,7 @@ import { ProductManagementPage } from './content/salesManagement/ProductManageme
 import { getSessionStorageItem } from './sessionStorageItem/getSessionStorageItem';
 
 function App() {
+
   return (
     <Router>
       <Switch>
@@ -27,12 +28,11 @@ function App() {
         <Route exact path="/users" component={() => <DrawerMenu pageContent={Users()}></DrawerMenu>} />
         <Route exact path="/" component={() => <DrawerMenu pageContent={MainPage()}></DrawerMenu>} />
         {
-          getSessionStorageItem('token') ? (
+          getSessionStorageItem('token') && (
             <Fragment>
               <Route exact path="/admin" component={() => <DrawerMenu pageContent={AdminMenuPage()}></DrawerMenu>} />
               <Route exact path="/products" component={() => <DrawerMenu pageContent={ProductManagementPage()}></DrawerMenu>} />
             </Fragment>)
-            : null
         }
       </Switch>
     </Router>

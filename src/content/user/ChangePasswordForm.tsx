@@ -38,7 +38,7 @@ const initialPasswordChange: PasswordChange = {
 
 export function ChangePasswordForm(props: Props) {
   const classes = useStyles();
-  const { service, sendRequest } = requestService(initialPasswordChange, 'http://www.pierogarniajezowe.pl:8080/api/save-password');
+  const { service, sendRequest } = requestService(initialPasswordChange, 'save-password');
 
   const [passwordChange, setPasswordChange] = useState<PasswordChange>(
     initialPasswordChange

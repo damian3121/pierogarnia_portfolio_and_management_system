@@ -64,7 +64,7 @@ export function Users() {
     initialUserData
   );
 
-  const { service, sendRequest } = requestService(initialUserData, 'http://www.pierogarniajezowe.pl:8080/api/users');
+  const { service, sendRequest } = requestService(initialUserData, 'users');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();

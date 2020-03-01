@@ -1,5 +1,4 @@
-import React from 'react';
-import { getSessionStorageItem } from '../../sessionStorageItem/getSessionStorageItem';
+import { headerConfig, urlConfig } from '../../Constants';
 import axios from 'axios';
 
 export interface Product {
@@ -7,14 +6,7 @@ export interface Product {
   price: number;
 }
 
-const config = {
-  headers: {
-    'Content-Type': 'application/json',
-    'accept': 'application/json',
-    'Authorization': `Bearer ${getSessionStorageItem('token')}`}
-}
-
-export async function getAllProducts() : Promise<Array<Product>>{
-    const response = await axios.get('http://www.pierogarniajezowe.pl:8080/api/products', config)
-    return response.data
+export async function getAllProducts(): Promise<Array<Product>> {
+  const response = await axios.get(urlConfig.url.API_URL + '/products', headerConfig)
+  return response.data
 }

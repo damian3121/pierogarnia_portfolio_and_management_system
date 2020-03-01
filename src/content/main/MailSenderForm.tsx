@@ -34,7 +34,7 @@ export function MailSenderForm() {
     initialMailSenderData
   );
 
-  const { service, sendRequest } = requestService(initialMailSenderData, 'http://www.pierogarniajezowe.pl:8080/api/send-mail');
+  const { service, sendRequest } = requestService(initialMailSenderData, 'send-mail');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
