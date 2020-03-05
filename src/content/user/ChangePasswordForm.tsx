@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles, Dialog, Button, IconButton, Typography, DialogContent, DialogTitle } from '@material-ui/core';
+import { makeStyles, Dialog, IconButton, DialogContent, DialogTitle } from '@material-ui/core';
 import { Formik, Field } from 'formik';
 import { TextFieldInput } from '../../component/input/TextFieldInput';
 import { ButtonForm } from '../../component/form/ButtonForm';
@@ -38,7 +38,7 @@ const initialPasswordChange: PasswordChange = {
 
 export function ChangePasswordForm(props: Props) {
   const classes = useStyles();
-  const { service, sendRequest } = requestService(initialPasswordChange, 'save-password');
+  const { service, sendRequest } = requestService(initialPasswordChange, '/save-password');
 
   const [passwordChange, setPasswordChange] = useState<PasswordChange>(
     initialPasswordChange

@@ -62,7 +62,7 @@ export function Login() {
     initialLoginData
   );
 
-  const { service, sendRequest } = requestService(initialLoginData, 'login');
+  const { service, sendRequest } = requestService(initialLoginData, '/login');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();

@@ -11,7 +11,7 @@ import { Contact } from './content/main/Contact';
 import { Login } from './content/auth/Login';
 import { Users } from './content/user/Users';
 import { AdminMenuPage } from './content/admin/AdminMenuPage'
-import { ProductManagementPage } from './content/salesManagement/ProductManagementPage'
+import { ProductManager } from './content/productManager/ProductManager'
 import { getSessionStorageItem } from './sessionStorageItem/getSessionStorageItem';
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
           getSessionStorageItem('token') && (
             <Fragment>
               <Route exact path="/admin" component={() => <DrawerMenu pageContent={AdminMenuPage()}></DrawerMenu>} />
-              <Route exact path="/products" component={() => <DrawerMenu pageContent={ProductManagementPage()}></DrawerMenu>} />
+              <Route exact path="/products" component={() => <DrawerMenu pageContent={ProductManager()}></DrawerMenu>} />
             </Fragment>)
         }
       </Switch>
