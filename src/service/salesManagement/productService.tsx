@@ -32,7 +32,7 @@ export const productService = {
     return added.data;
   },
 
-  async delete(id: number){
+  async delete(id: number) {
     await axios.delete(urlConfig.url.API_URL + '/products/' + id, {
       headers: {
         'Accept': 'application/jezowe.pierogarnia.controller.user.getbyid+json',
@@ -42,7 +42,7 @@ export const productService = {
   },
 
   async update(product: Product): Promise<Product> {
-    await axios.put(urlConfig.url.API_URL + '/products/update', product, headerConfig);
+    await axios.put(urlConfig.url.API_URL + '/products/' + product.id, product, headerConfig);
 
     const updated = await axios.get<Product>(urlConfig.url.API_URL + '/products/' + product.name, {
       headers: {

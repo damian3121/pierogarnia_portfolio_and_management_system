@@ -16,6 +16,7 @@ import { radioValueBinding, radioChangeBinding } from '../../util/bindings';
 import { TableHeader } from '../../component/table/TableHeader';
 import AddIcon from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/DeleteForever';
+import { Notyfication, AlertType } from '../../component/notification/Notification';
 
 interface Props {
   setSelectedProduct: Setter<Props['selectedProduct']>;
@@ -41,6 +42,7 @@ export function SelectProduct({
   function deleteHandler(id: number) {
     productService.delete(id)
     onDeleteProduct(id)
+    Notyfication({ type: AlertType.SUCCES, content: "Produkt został usunięty." })
     setSelectedProduct(null)
   }
 

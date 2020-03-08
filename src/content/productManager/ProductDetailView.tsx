@@ -5,6 +5,8 @@ import { TextField } from 'formik-material-ui';
 import { Product, productService } from '../../service/salesManagement/productService';
 import { TableHeader } from '../../component/table/TableHeader';
 import { Fragment } from 'react';
+import { mapAxiosError } from '../../util/RestUtils';
+import { Notyfication, AlertType } from '../../component/notification/Notification';
 
 const useStyle = makeStyles(() => ({
   fieldMargin: {
@@ -72,12 +74,23 @@ export function ProductDetailView({
               price: Number.parseFloat(values.price.toString())
             })
             onProductUpdated(updated)
+            Notyfication({ type: AlertType.SUCCES, content: "Produkt edytowano prawidłowo" })
           } else {
-            const item = await productService.create({
-              name: values.name,
-              price: Number.parseFloat(values.price.toString())
-            });
-            onProductAdded(item)
+            try {
+              const item = await productService.create({
+                name: values.name,
+                price: Number.parseFloat(values.price.toString())
+              });
+              onProductAdded(item)
+              setEditMode(false)
+              Notyfication({ type: AlertType.SUCCES, content: "Produkt dodano prawidłowo" })
+            } catch (e) {
+              mapAxiosError(e, {
+                409() {
+                  Notyfication({ type: AlertType.ERROR, content: "Produkt już istnieje" })
+                }
+              });
+            }
           }
           setSubmitting(false)
         }}
