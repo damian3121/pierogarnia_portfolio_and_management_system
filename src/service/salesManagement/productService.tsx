@@ -1,6 +1,5 @@
 import { headerConfig, urlConfig } from '../../Constants';
 import axios from 'axios';
-import { getSessionStorageItem } from '../../sessionStorageItem/getSessionStorageItem';
 
 export interface Product {
   id: number;
@@ -14,43 +13,34 @@ export interface AddProduct {
 }
 
 export const productService = {
-  async getAllProducts(): Promise<Array<Product>> {
+  async create(product: AddProduct): Promise<Product> {
+    await axios.post(urlConfig.url.API_URL + '/products', product, headerConfig);
+
+    const added = await this.getByName(product.name)
+
+    return added
+  },
+
+  async getAll(): Promise<Array<Product>> {
     const response = await axios.get(urlConfig.url.API_URL + '/products', headerConfig)
     return response.data
   },
 
-  async create(product: AddProduct): Promise<Product> {
-    await axios.post(urlConfig.url.API_URL + '/products/create', product, headerConfig);
+  async getByName(productName: string): Promise<Product> {
+    const product = await axios.get<Product>(urlConfig.url.API_URL + '/products/name/' + productName, headerConfig);
 
-    const added = await axios.get<Product>(urlConfig.url.API_URL + '/products/' + product.name, {
-      headers: {
-        'Accept': 'application/jezowe.pierogarnia.controller.user.getbyname+json',
-        'Authorization': `Bearer ${getSessionStorageItem('token')}`
-      }
-    });
-
-    return added.data;
-  },
-
-  async delete(id: number) {
-    await axios.delete(urlConfig.url.API_URL + '/products/' + id, {
-      headers: {
-        'Accept': 'application/jezowe.pierogarnia.controller.user.getbyid+json',
-        'Authorization': `Bearer ${getSessionStorageItem('token')}`
-      }
-    })
+    return product.data;
   },
 
   async update(product: Product): Promise<Product> {
     await axios.put(urlConfig.url.API_URL + '/products/' + product.id, product, headerConfig);
 
-    const updated = await axios.get<Product>(urlConfig.url.API_URL + '/products/' + product.name, {
-      headers: {
-        'Accept': 'application/jezowe.pierogarnia.controller.user.getbyname+json',
-        'Authorization': `Bearer ${getSessionStorageItem('token')}`
-      }
-    });
+    const updated = await this.getByName(product.name)
 
-    return updated.data;
+    return updated;
   },
+
+  async delete(id: number) {
+    await axios.delete(urlConfig.url.API_URL + '/products/' + id, headerConfig)
+  }
 }

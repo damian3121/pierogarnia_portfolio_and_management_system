@@ -3,8 +3,6 @@ export function arrayAddUniq<T>(arr: Array<T>, item: T): Array<T> {
 }
 
 export function arrayDel<T>(arr: Array<T>, item: T): Array<T> {
-  console.log(arr)
-  console.log(item)
   return arr.filter(it => it !== item);
 }
 
@@ -30,7 +28,7 @@ export function mergeById<T extends { id: any }>(
 ): Array<T> {
 
   return src.concat(append.filter(appended =>
-    !(src.find(srcItem => srcItem.id === appended.id))
+    !(src.find(srcItem => srcItem.id !== appended.id))
   ))
 }
 

@@ -12,30 +12,36 @@ import { Login } from './content/auth/Login';
 import { Users } from './content/user/Users';
 import { AdminMenuPage } from './content/admin/AdminMenuPage'
 import { ProductManager } from './content/productManager/ProductManager'
+import { OrderManager } from './content/orderManager/OrderManager'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import { getSessionStorageItem } from './sessionStorageItem/getSessionStorageItem';
 
 function App() {
 
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/o-nas" component={() => <DrawerMenu pageContent={AboutUs()}></DrawerMenu>} />
-        <Route exact path="/oferta" component={() => <DrawerMenu pageContent={Offer()}></DrawerMenu>} />
-        <Route exact path="/cennik" component={() => <DrawerMenu pageContent={PriceList()}></DrawerMenu>} />
-        <Route exact path="/galeria" component={() => <DrawerMenu pageContent={GalleryPage()}></DrawerMenu>} />
-        <Route exact path="/kontakt" component={() => <DrawerMenu pageContent={Contact()}></DrawerMenu>} />
-        <Route exact path="/login" component={() => <DrawerMenu pageContent={Login()}></DrawerMenu>} />
-        <Route exact path="/users" component={() => <DrawerMenu pageContent={Users()}></DrawerMenu>} />
-        <Route exact path="/" component={() => <DrawerMenu pageContent={MainPage()}></DrawerMenu>} />
-        {
-          getSessionStorageItem('token') && (
-            <Fragment>
-              <Route exact path="/admin" component={() => <DrawerMenu pageContent={AdminMenuPage()}></DrawerMenu>} />
-              <Route exact path="/products" component={() => <DrawerMenu pageContent={ProductManager()}></DrawerMenu>} />
-            </Fragment>)
-        }
-      </Switch>
-    </Router>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Router>
+        <Switch>
+          <Route exact path="/o-nas" component={() => <DrawerMenu pageContent={AboutUs()}></DrawerMenu>} />
+          <Route exact path="/oferta" component={() => <DrawerMenu pageContent={Offer()}></DrawerMenu>} />
+          <Route exact path="/cennik" component={() => <DrawerMenu pageContent={PriceList()}></DrawerMenu>} />
+          <Route exact path="/galeria" component={() => <DrawerMenu pageContent={GalleryPage()}></DrawerMenu>} />
+          <Route exact path="/kontakt" component={() => <DrawerMenu pageContent={Contact()}></DrawerMenu>} />
+          <Route exact path="/login" component={() => <DrawerMenu pageContent={Login()}></DrawerMenu>} />
+          <Route exact path="/users" component={() => <DrawerMenu pageContent={Users()}></DrawerMenu>} />
+          <Route exact path="/" component={() => <DrawerMenu pageContent={MainPage()}></DrawerMenu>} />
+          {
+            getSessionStorageItem('token') && (
+              <Fragment>
+                <Route exact path="/admin" component={() => <DrawerMenu pageContent={AdminMenuPage()}></DrawerMenu>} />
+                <Route exact path="/products" component={() => <DrawerMenu pageContent={ProductManager()}></DrawerMenu>} />
+                <Route exact path="/orders" component={() => <DrawerMenu pageContent={OrderManager()}></DrawerMenu>} />
+              </Fragment>)
+          }
+        </Switch>
+      </Router>
+    </MuiPickersUtilsProvider>
   )
 }
 

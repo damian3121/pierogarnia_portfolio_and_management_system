@@ -12,7 +12,7 @@ import {
   TableFooter,
   TablePagination
 } from '@material-ui/core';
-import { Product, productService } from '../../service/salesManagement/productService';
+import { orderService } from '../../service/salesManagement/orderService';
 import { Setter } from '../../util/TypeUtils';
 import { radioValueBinding, radioChangeBinding } from '../../util/bindings';
 import { TableHeader } from '../../component/table/TableHeader';
@@ -20,12 +20,14 @@ import AddIcon from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/DeleteForever';
 import { Notyfication, AlertType } from '../../component/notification/Notification';
 import TablePaginationActions from '@material-ui/core/TablePagination/TablePaginationActions';
+import { Order } from '../../service/salesManagement/orderService';
+import moment from 'moment'
 
 interface Props {
-  setSelectedProduct: Setter<Props['selectedProduct']>;
-  selectedProduct: Product | null;
-  onDelete(id: Product): void;
-  products: Array<Product>;
+  setSelectedOrder: Setter<Props['selectedOrder']>;
+  selectedOrder: Order | null;
+  onDelete(order: Order): void;
+  orders: Array<Order>;
 }
 
 const useStyle = makeStyles(() => ({
@@ -34,17 +36,16 @@ const useStyle = makeStyles(() => ({
   }
 }));
 
-export function SelectProduct({
-  products,
-  setSelectedProduct,
+export function SelectOrder({
+  orders,
+  setSelectedOrder,
   onDelete,
-  selectedProduct
+  selectedOrder
 }: Props) {
   const cls = useStyle();
 
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [isLoading, setIsLoading] = useState(true);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -57,11 +58,11 @@ export function SelectProduct({
     setPage(0);
   }
 
-  function deleteHandler(product: Product) {
-    productService.delete(product.id)
-    onDelete(product)
-    Notyfication({ type: AlertType.SUCCES, content: "Produkt został usunięty." })
-    setSelectedProduct(null)
+  function deleteHandler(order: Order) {
+    orderService.delete(order.id)
+    onDelete(order)
+    Notyfication({ type: AlertType.SUCCES, content: "Zamówienie zostało usunięte." })
+    setSelectedOrder(null)
   }
 
   return (
@@ -71,45 +72,47 @@ export function SelectProduct({
           <Button
             color='primary'
             variant='contained'
-            onClick={() => setSelectedProduct(null)}
+            onClick={() => setSelectedOrder(null)}
           >
             <AddIcon />
             NOWY
           </Button>
         }
       >
-        Produkty
+        Zamówienia
       </TableHeader>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell padding='checkbox'></TableCell>
-            <TableCell>Nazwa</TableCell>
-            <TableCell>Cena</TableCell>
+            <TableCell>Nazwa klienta</TableCell>
+            <TableCell>Data zamówienia</TableCell>
+            <TableCell>Data odbioru</TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : products
-          ).map(product =>
-            <TableRow key={product.id}>
+            ? orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : orders
+          ).map(order =>
+            <TableRow key={order.id}>
               <TableCell>
                 <Radio
                   checked={
-                    radioValueBinding(product, selectedProduct)
+                    radioValueBinding(order, selectedOrder)
                   }
-                  onChange={radioChangeBinding(product, setSelectedProduct)}
+                  onChange={radioChangeBinding(order, setSelectedOrder)}
                 />
               </TableCell>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.price}</TableCell>
+              <TableCell>{order.customerName + " " + order.customerSurname}</TableCell>
+              <TableCell>{moment(new Date(order.orderDate)).format('YYYY-MM-DD hh:mm')}</TableCell>
+              <TableCell>{moment(new Date(order.receiptDate)).format('YYYY-MM-DD hh:mm')}</TableCell>
               <TableCell className={cls.buttonCenter}>
                 <Button
                   color='primary'
                   variant='contained'
-                  onClick={() => deleteHandler(product)}
+                  onClick={() => deleteHandler(order)}
                 >
                   <Delete />
                   usuń
@@ -123,7 +126,7 @@ export function SelectProduct({
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               colSpan={3}
-              count={products.length}
+              count={orders.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{

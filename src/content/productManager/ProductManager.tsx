@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { SplitPane } from '../../component/SplitPane/SplitPane';
-import { mergeById } from '../../util/arrayUtils';
 import { useLoading } from '../../hooks/useLoading';
 import { productService, Product } from '../../service/salesManagement/productService'
 import { SelectProduct } from './SelectProduct';
@@ -8,29 +7,47 @@ import { ProductDetailView } from './ProductDetailView';
 
 export function ProductManager() {
   const fetchedProducts = useLoading(
-    () => productService.getAllProducts()
+    () => productService.getAll()
   )[0] || [];
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [localProducts, setLocalProducts] = useState<Array<Product>>([]);
-
-  function onProductAdded(product: Product) {
-    setLocalProducts([product].concat(localProducts));
-    setSelectedProduct(product)
-  }
-
-  function onProductUpdated(product: Product) {
-    setLocalProducts(products.filter(t => t.id !== product.id))
-    setLocalProducts([product].concat(localProducts));
-    setSelectedProduct(product)
-  }
+  const [localMutations, setLocalMutations] = useState(() => new Map<number, Product>());
+  const [toRemove, setToRemove] = useState<Product | null>(null)
 
   const products = useMemo(
-    () => mergeById(localProducts, fetchedProducts),
-    [fetchedProducts, localProducts]
+    () => {
+      const added: Array<Product> = [];
+
+      for (const [id, product] of localMutations.entries()) {
+        if (fetchedProducts.findIndex(it => it.id === id) === -1) {
+          added.push(product);
+        }
+      }
+
+      if (toRemove) {
+        return fetchedProducts.filter(product => product.id !== toRemove.id)
+      }
+
+      return added.concat(
+        fetchedProducts
+          .map(it => localMutations.has(it.id) ? localMutations.get(it.id)! : it)
+      );
+    },
+    [fetchedProducts, localMutations, toRemove]
   );
 
-  function onDeleteProduct(id: number) {
-    setLocalProducts(products.filter(t => t.id !== id))
+  function addNewLocalProductModification(
+    next: Product
+  ) {
+    const updated = new Map(localMutations);
+    updated.set(next.id, next);
+    setLocalMutations(updated);
+    setSelectedProduct(next)
+  }
+
+  function onDelete(
+    next: Product
+  ) {
+    setToRemove(next)
   }
 
   return (
@@ -39,15 +56,15 @@ export function ProductManager() {
         <SelectProduct
           setSelectedProduct={setSelectedProduct}
           selectedProduct={selectedProduct}
-          onDeleteProduct={onDeleteProduct}
+          onDelete={onDelete}
           products={products}
         />
       }
       right={
         <ProductDetailView
           selectedProduct={selectedProduct}
-          onProductAdded={onProductAdded}
-          onProductUpdated={onProductUpdated}
+          onProductAdded={addNewLocalProductModification}
+          onProductUpdated={addNewLocalProductModification}
         />
       }
     />
