@@ -1,12 +1,13 @@
-import * as React from 'react';
 import { Formik, Form, Field } from 'formik';
-import { Button, makeStyles, Grid } from '@material-ui/core';
+import { Button, makeStyles, Grid, MenuItem } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 import { Product, productService } from '../../service/salesManagement/productService';
 import { TableHeader } from '../../component/table/TableHeader';
-import { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { mapAxiosError } from '../../util/RestUtils';
 import { Notyfication, AlertType } from '../../component/notification/Notification';
+import { useLoading } from '../../hooks/useLoading';
+import { fktProductService, FktProduct } from '../../service/salesManagement/fktProductService';
 
 const useStyle = makeStyles(() => ({
   fieldMargin: {
@@ -26,6 +27,9 @@ const useStyle = makeStyles(() => ({
 interface Values {
   name: string;
   price: number;
+  priceNet: number;
+  priceGross: number;
+  fktProductId: number;
 }
 
 interface Props {
@@ -41,8 +45,26 @@ export function ProductDetailView({
 }: Props) {
   const cls = useStyle();
 
-  const [editMode, setEditMode] = React.useState(false);
-  React.useEffect(() => {
+  const fetchedFktProducts = useLoading(
+    () => fktProductService.getAll()
+  )[0] || [];
+
+  const selectProductList = fetchedFktProducts.map(function (item) {
+    return {
+      value: item.id,
+      label: item.name + ' - ' + item.price_gross + " zł/kg",
+    }
+  });
+
+  const [editMode, setEditMode] = useState(false);
+
+  function findFktProduct(id: number): FktProduct {
+    const fktProduct = fetchedFktProducts.filter(it => it.id == id)[0];
+
+    return fktProduct;
+  }
+
+  useEffect(() => {
     setEditMode(selectedProduct != null)
   }, [selectedProduct]);
 
@@ -57,6 +79,9 @@ export function ProductDetailView({
         initialValues={{
           name: selectedProduct ? selectedProduct.name : '',
           price: selectedProduct ? selectedProduct.price : '',
+          fktPriceNet: selectedProduct ? selectedProduct.fktPriceNet : 0,
+          fktPriceGross: selectedProduct ? selectedProduct.fktPriceGross : 0,
+          fktProductId: selectedProduct ? selectedProduct.fktProductId : 0,
         }}
         validate={values => {
           const errors: Partial<Values> = {};
@@ -71,7 +96,10 @@ export function ProductDetailView({
             const updated = await productService.update({
               id: selectedProduct.id,
               name: values.name,
-              price: Number.parseFloat(values.price.toString())
+              price: Number.parseFloat(values.price.toString()),
+              fktPriceGross: Number.parseFloat(findFktProduct(values.fktProductId).price_gross),
+              fktPriceNet: Number.parseFloat(findFktProduct(values.fktProductId).price_net),
+              fktProductId: values.fktProductId
             })
             onProductUpdated(updated)
             Notyfication({ type: AlertType.SUCCES, content: "Produkt edytowano prawidłowo" })
@@ -79,7 +107,10 @@ export function ProductDetailView({
             try {
               const item = await productService.create({
                 name: values.name,
-                price: Number.parseFloat(values.price.toString())
+                price: Number.parseFloat(values.price.toString()),
+                fktPriceGross: Number.parseFloat(findFktProduct(values.fktProductId).price_gross),
+                fktPriceNet: Number.parseFloat(findFktProduct(values.fktProductId).price_net),
+                fktProductId: values.fktProductId
               });
               onProductAdded(item)
               setEditMode(false)
@@ -117,6 +148,25 @@ export function ProductDetailView({
                 spacing="2"
                 className={cls.fieldMargin}
               />
+              <Field
+                component={TextField}
+                label="Powiąż produkt z fakturownia"
+                type="text"
+                name="fktProductId"
+                select
+                variant="filled"
+                margin="normal"
+                fullWidth={true}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              >
+                {selectProductList.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Field>
               <Button
                 variant="contained"
                 color="primary"

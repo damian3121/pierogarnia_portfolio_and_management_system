@@ -5,11 +5,17 @@ export interface Product {
   id: number;
   name: string;
   price: number;
+  fktPriceNet: number;
+  fktPriceGross: number;
+  fktProductId: number;
 }
 
 export interface AddProduct {
   name: string;
   price: number;
+  fktPriceNet: number;
+  fktPriceGross: number;
+  fktProductId: number;
 }
 
 export const productService = {
