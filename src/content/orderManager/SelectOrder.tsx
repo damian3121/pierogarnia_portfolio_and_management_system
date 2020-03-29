@@ -105,7 +105,7 @@ export function SelectOrder({
                   onChange={radioChangeBinding(order, setSelectedOrder)}
                 />
               </TableCell>
-              <TableCell>{order.customerName + " " + order.customerSurname}</TableCell>
+              <TableCell>{order.customerName}</TableCell>
               <TableCell>{moment(new Date(order.orderDate)).format('YYYY-MM-DD hh:mm')}</TableCell>
               <TableCell>{moment(new Date(order.receiptDate)).format('YYYY-MM-DD hh:mm')}</TableCell>
               <TableCell className={cls.buttonCenter}>

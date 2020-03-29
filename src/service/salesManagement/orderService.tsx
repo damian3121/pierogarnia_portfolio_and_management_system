@@ -5,14 +5,17 @@ import moment from 'moment';
 
 export interface Order extends AddOrder {
   id: number;
+  receiptDate: string;
+  orderDate: string;
+  customerName: string;
+  customerId: number | null;
+  orderItems: Array<OrderItem> | null;
 }
 
 export interface AddOrder {
-  orderDate: string;
   receiptDate: string;
   customerName: string;
-  customerSurname: string;
-  customerCompany: string;
+  customerId: number | null;
   orderItems: Array<OrderItem> | null;
 }
 
@@ -37,8 +40,7 @@ export interface AddOrderItem {
 export interface UpdateOrder {
   receiptDate: string;
   customerName: string;
-  customerSurname: string;
-  customerCompany: string;
+  customerId: number | null;
 }
 
 export const orderService = {
@@ -47,12 +49,12 @@ export const orderService = {
 
     const added = await axios.get<AddOrder>(urlConfig.url.API_URL + '/orders?' +
       'receiptOrderDate=' + moment(order.receiptDate).format('YYYY-MM-DDTHH:mm:ss')
-      + '&customerSurname=' + order.customerSurname, {
-        headers: {
-          'Accept': 'application/jezowe.pierogarnia.controller.order.getbydate+json',
-          'Authorization': `Bearer ${getSessionStorageItem('token')}`
-        }
-      });
+      + '&customerName=' + order.customerName, {
+      headers: {
+        'Accept': 'application/jezowe.pierogarnia.controller.order.getbydate+json',
+        'Authorization': `Bearer ${getSessionStorageItem('token')}`
+      }
+    });
 
     return added.data;
   },

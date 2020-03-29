@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
-import { Button, makeStyles, Grid, Theme } from '@material-ui/core';
+import { Button, makeStyles, Grid, Theme, MenuItem } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 import { TableHeader } from '../../component/table/TableHeader';
 import { Fragment, useState, useEffect } from 'react';
@@ -10,6 +10,8 @@ import { Order, orderService, OrderItem, AddOrder } from '../../service/salesMan
 import { ProductList } from './ProductList';
 import { KeyboardDateTimePickerInput } from '../../component/input/KeyboardDateTimePickerInput';
 import moment from 'moment';
+import { useLoading } from '../../hooks/useLoading';
+import { fktClientService } from '../../service/salesManagement/fktClientService';
 
 const useStyle = makeStyles((theme: Theme) => ({
   fieldMargin: {
@@ -34,9 +36,8 @@ const useStyle = makeStyles((theme: Theme) => ({
 interface Values {
   orderDate: string;
   receipt: string;
+  customerId: number;
   customerName: string;
-  customerSurname: string;
-  customerCompany: string;
   orderItems: Array<OrderItem>;
 }
 
@@ -52,12 +53,23 @@ export function OrderDetailView({
   onOrderUpdated: onOrderUpdated
 }: Props) {
   const cls = useStyle();
+
+  const fetchedFktClients = useLoading(
+    () => fktClientService.getAll()
+  )[0] || [];
+
+  const selectClientList = fetchedFktClients.map(function (client) {
+    return {
+      value: client.id,
+      label: client.shortcut,
+    }
+  });
+
   const [selectedDate, handleDateChange] = useState();
   const [editMode, setEditMode] = useState(false);
-  console.log(selectedOrder)
 
   useEffect(() => {
-    handleDateChange(selectedOrder ? selectedOrder.receiptDate : null)
+    handleDateChange(selectedOrder?selectedOrder.receiptDate:null)
     setEditMode(selectedOrder != null)
   }, [selectedOrder]);
 
@@ -70,11 +82,9 @@ export function OrderDetailView({
       <Formik
         enableReinitialize
         initialValues={{
+          customerId: selectedOrder ? selectedOrder.customerId : null,
           customerName: selectedOrder ? selectedOrder.customerName : '',
-          customerSurname: selectedOrder ? selectedOrder.customerSurname : '',
-          orderDate: '',
           receiptDate: selectedOrder ? selectedOrder.receiptDate : '',
-          customerCompany: selectedOrder ? selectedOrder.customerCompany : '',
           orderItems: null
         }}
         validate={values => {
@@ -88,9 +98,8 @@ export function OrderDetailView({
         onSubmit={async (values, { setSubmitting }) => {
           if (editMode && selectedOrder != null) {
             const updated = await orderService.update(selectedOrder.id, {
-              customerCompany: values.customerCompany,
               customerName: values.customerName,
-              customerSurname: values.customerSurname,
+              customerId: values.customerId,
               receiptDate: values.receiptDate
             })
             console.log(updated)
@@ -99,12 +108,10 @@ export function OrderDetailView({
           } else {
             try {
               const item = await orderService.create({
+                customerId: values.customerId,
                 customerName: values.customerName,
-                customerSurname: values.customerSurname,
-                customerCompany: values.customerCompany,
-                orderDate: '',
+                receiptDate: moment(selectedDate).format('YYYY-MM-DDTHH:mm:ss'),
                 orderItems: values.orderItems,
-                receiptDate: moment(selectedDate).format('YYYY-MM-DDTHH:mm:ss')
               });
               onOrderAdded(item)
               setEditMode(true)
@@ -124,41 +131,39 @@ export function OrderDetailView({
           <Form className={cls.formTypeDisplay}>
 
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
+                <Field
+                  component={TextField}
+                  label="Klient - płatnik VAT"
+                  type="text"
+                  name="customerId"
+                  select
+                  variant="filled"
+                  margin="normal"
+                  fullWidth={true}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                >
+                  {selectClientList.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Field>
+              </Grid>
+              <Grid item xs={12} sm={12}>
                 <Field
                   component={TextField}
                   name="customerName"
                   type="text"
-                  label="Imię"
+                  label="Imię i nazwisko"
                   fullWidth={true}
                   variant="filled"
                   className={cls.fieldMargin}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <Field
-                  component={TextField}
-                  type="text"
-                  label="Nazwisko"
-                  name="customerSurname"
-                  fullWidth={true}
-                  variant="filled"
-                  spacing="2"
-                  className={cls.fieldMargin}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Field
-                  component={TextField}
-                  name="customerCompany"
-                  type="text"
-                  label="Nazwa firmy"
-                  fullWidth={true}
-                  variant="filled"
-                  className={cls.fieldMargin}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <Field
                   component={KeyboardDateTimePickerInput}
                   name="receiptDate"
