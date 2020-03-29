@@ -11,19 +11,11 @@ export function AdminMenuPage() {
           paperSectionHeader='Zarządzaj sprzedażą'
           buttonMenuData={[
             {
-              buttonText: 'dodaj produkt',
-              redirectUrl: '/add-product'
-            },
-            {
-              buttonText: 'dodaj zamówienie',
-              redirectUrl: '/add-order'
-            },
-            {
-              buttonText: 'lista produktów',
+              buttonText: 'produkty',
               redirectUrl: '/products'
             },
             {
-              buttonText: 'lista zamówień',
+              buttonText: 'zamówienia',
               redirectUrl: '/orders'
             }
           ]}

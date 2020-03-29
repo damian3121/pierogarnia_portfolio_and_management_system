@@ -26,6 +26,7 @@ const useStyle = makeStyles(({
 interface Props {
   orderItems: Array<OrderItem> | null
   orderId: number;
+  isPayerVat: boolean;
   onOrderUpdated(updated: Order): void;
 }
 
@@ -38,9 +39,11 @@ export function ProductList(props: Props) {
   const [orderProductItems, setOrderProductItems] = useState<OrderItem[]>([]);
 
   const selectProductList = fetchedProducts.map(function (item) {
+    const price = props.isPayerVat ? item.fktPriceGross : item.price
+
     return {
       value: item.id,
-      label: item.name + ' - ' + item.price + " zł/kg"
+      label: item.name + ' - ' + price + " zł/kg"
     }
   });
 
@@ -57,6 +60,18 @@ export function ProductList(props: Props) {
     setOrderProductItems(orderMapper);
   }, [props.orderItems]);
 
+  function orderItemPrice(id: number, quantity: number) {
+    const item = fetchedProducts.find(it => it.id === id);
+    
+    if (item) {
+      const price = props.isPayerVat ? item.fktPriceGross : item.price
+      
+      return Math.round(price * quantity * 100) / 100
+    } else {
+      return 0;
+    }
+  }
+
   return (
     <div>
       <TableHeader>
@@ -67,7 +82,14 @@ export function ProductList(props: Props) {
         initialValues={{ orderItems: orderProductItems }}
         onSubmit={async (values, { setSubmitting }) => {
           try {
-            const order = await orderService.orderProductsUpdate(props.orderId, values.orderItems);
+            const items = values.orderItems.map(item => {
+              return {
+                summaryPrice: orderItemPrice(item.productId, item.quantity),
+                quantity: item.quantity,
+                productId: item.productId,
+              }
+            })
+            const order = await orderService.orderProductsUpdate(props.orderId, items);
             props.onOrderUpdated(order)
             Notyfication({ type: AlertType.SUCCES, content: "Produkty dodane prawidłowo" })
           } catch (e) {

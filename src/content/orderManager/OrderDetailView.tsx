@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Button, makeStyles, Grid, Theme, MenuItem } from '@material-ui/core';
-import { TextField } from 'formik-material-ui';
+import { TextField, Checkbox } from 'formik-material-ui';
 import { TableHeader } from '../../component/table/TableHeader';
 import { Fragment, useState, useEffect } from 'react';
 import { mapAxiosError } from '../../util/RestUtils';
@@ -38,6 +38,7 @@ interface Values {
   receipt: string;
   customerId: number;
   customerName: string;
+  payerVat: boolean;
   orderItems: Array<OrderItem>;
 }
 
@@ -67,11 +68,23 @@ export function OrderDetailView({
 
   const [selectedDate, handleDateChange] = useState();
   const [editMode, setEditMode] = useState(false);
+  const [clientIsPayerVat, setClientIsPayerVat] = useState(false);
+
+  const existingReceiptDate = selectedOrder ? selectedOrder.receiptDate : null;
+  const existingPayerVat = selectedOrder ? selectedOrder.payerVat : false;
+  const existingCustomerId = selectedOrder ? selectedOrder.customerId : null;
+  const existingCustomerName = selectedOrder ? selectedOrder.customerName : '';
+  const isSelectedMode = selectedOrder !== null;
 
   useEffect(() => {
-    handleDateChange(selectedOrder?selectedOrder.receiptDate:null)
-    setEditMode(selectedOrder != null)
+    handleDateChange(existingReceiptDate)
+    setEditMode(isSelectedMode)
+    setClientIsPayerVat(existingPayerVat)
   }, [selectedOrder]);
+
+  function handleClientIsPayerVat() {
+    setClientIsPayerVat(!clientIsPayerVat)
+  }
 
   return (
     <Fragment>
@@ -82,9 +95,10 @@ export function OrderDetailView({
       <Formik
         enableReinitialize
         initialValues={{
-          customerId: selectedOrder ? selectedOrder.customerId : null,
-          customerName: selectedOrder ? selectedOrder.customerName : '',
-          receiptDate: selectedOrder ? selectedOrder.receiptDate : '',
+          customerId: existingCustomerId,
+          customerName: existingCustomerName,
+          receiptDate: existingReceiptDate,
+          payerVat: existingPayerVat,
           orderItems: null
         }}
         validate={values => {
@@ -98,11 +112,11 @@ export function OrderDetailView({
         onSubmit={async (values, { setSubmitting }) => {
           if (editMode && selectedOrder != null) {
             const updated = await orderService.update(selectedOrder.id, {
+              payerVat: values.payerVat,
               customerName: values.customerName,
               customerId: values.customerId,
               receiptDate: values.receiptDate
             })
-            console.log(updated)
             onOrderUpdated(updated)
             Notyfication({ type: AlertType.SUCCES, content: "Dane klienta edytowano prawidłowo" })
           } else {
@@ -110,6 +124,7 @@ export function OrderDetailView({
               const item = await orderService.create({
                 customerId: values.customerId,
                 customerName: values.customerName,
+                payerVat: clientIsPayerVat,
                 receiptDate: moment(selectedDate).format('YYYY-MM-DDTHH:mm:ss'),
                 orderItems: values.orderItems,
               });
@@ -131,7 +146,7 @@ export function OrderDetailView({
           <Form className={cls.formTypeDisplay}>
 
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={12}>
+              <Grid item xs={6} sm={6}>
                 <Field
                   component={TextField}
                   label="Klient - płatnik VAT"
@@ -151,6 +166,17 @@ export function OrderDetailView({
                     </MenuItem>
                   ))}
                 </Field>
+              </Grid>
+              <Grid item xs={6} sm={6}>
+                <Field
+                  component={Checkbox}
+                  name="payerVat"
+                  fullWidth={true}
+                  checked={clientIsPayerVat}
+                  onClick={handleClientIsPayerVat}
+                  className={cls.fieldMargin}
+                />
+                Klient jest płatnikiem VAT
               </Grid>
               <Grid item xs={12} sm={12}>
                 <Field
@@ -195,6 +221,7 @@ export function OrderDetailView({
           orderItems={selectedOrder ? selectedOrder.orderItems : []}
           orderId={selectedOrder ? selectedOrder.id : 0}
           onOrderUpdated={onOrderUpdated}
+          isPayerVat={clientIsPayerVat}
         />
       }
     </Fragment>

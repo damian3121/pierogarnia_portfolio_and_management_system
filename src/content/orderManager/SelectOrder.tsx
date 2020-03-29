@@ -86,6 +86,7 @@ export function SelectOrder({
           <TableRow>
             <TableCell padding='checkbox'></TableCell>
             <TableCell>Nazwa klienta</TableCell>
+            <TableCell>Wartość zamówienia</TableCell>
             <TableCell>Data zamówienia</TableCell>
             <TableCell>Data odbioru</TableCell>
             <TableCell></TableCell>
@@ -106,6 +107,7 @@ export function SelectOrder({
                 />
               </TableCell>
               <TableCell>{order.customerName}</TableCell>
+              <TableCell>{order.summaryPrice + " zł"}</TableCell>
               <TableCell>{moment(new Date(order.orderDate)).format('YYYY-MM-DD hh:mm')}</TableCell>
               <TableCell>{moment(new Date(order.receiptDate)).format('YYYY-MM-DD hh:mm')}</TableCell>
               <TableCell className={cls.buttonCenter}>

@@ -9,6 +9,8 @@ export interface Order extends AddOrder {
   orderDate: string;
   customerName: string;
   customerId: number | null;
+  payerVat: boolean;
+  summaryPrice: number;
   orderItems: Array<OrderItem> | null;
 }
 
@@ -16,11 +18,11 @@ export interface AddOrder {
   receiptDate: string;
   customerName: string;
   customerId: number | null;
+  payerVat: boolean | null;
   orderItems: Array<OrderItem> | null;
 }
 
 export interface AddProductItems {
-  productName: string;
   summaryPrice: number;
   quantity: number;
   productId: number;
@@ -38,7 +40,8 @@ export interface AddOrderItem {
 }
 
 export interface UpdateOrder {
-  receiptDate: string;
+  receiptDate: string | null;
+  payerVat: boolean;
   customerName: string;
   customerId: number | null;
 }
@@ -65,6 +68,7 @@ export const orderService = {
   },
 
   async orderProductsUpdate(orderId: number, productItems: Array<AddProductItems>): Promise<Order> {
+    console.log(productItems)
     await axios.put(urlConfig.url.API_URL + '/orders/' + orderId, productItems, {
       headers: {
         'Accept': 'application/jezowe.pierogarnia.controller.order.orderProductsUpdate+json',
