@@ -17,6 +17,10 @@ export function AdminMenuPage() {
             {
               buttonText: 'zamówienia',
               redirectUrl: '/orders'
+            },
+            {
+              buttonText: 'klienci',
+              redirectUrl: '/clients-notes'
             }
           ]}
         />
