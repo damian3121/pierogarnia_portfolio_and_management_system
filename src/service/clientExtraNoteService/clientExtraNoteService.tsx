@@ -7,7 +7,7 @@ export interface ClientExtraNote extends AddClientExtraNote {
 
 export interface AddClientExtraNote {
   fktCustomerId: number | null;
-  extraInfoClientName: string | null;
+  extraInfoClientName: string;
   extraInfo: string;
 }
 

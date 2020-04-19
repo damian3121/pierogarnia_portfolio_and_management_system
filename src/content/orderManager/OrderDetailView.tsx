@@ -176,7 +176,7 @@ export function OrderDetailView({
                   onClick={handleClientIsPayerVat}
                   className={cls.fieldMargin}
                 />
-                Klient jest płatnikiem VAT
+                Faktura?
               </Grid>
               <Grid item xs={12} sm={12}>
                 <Field

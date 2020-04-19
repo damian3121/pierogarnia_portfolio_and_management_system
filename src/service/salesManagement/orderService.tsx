@@ -26,6 +26,7 @@ export interface AddProductItems {
   summaryPrice: number;
   quantity: number;
   productId: number;
+  productName: string;
 }
 
 export interface OrderItem extends AddOrderItem {

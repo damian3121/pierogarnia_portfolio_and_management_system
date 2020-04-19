@@ -12,6 +12,7 @@ import { Login } from './content/auth/Login';
 import { Users } from './content/user/Users';
 import { AdminMenuPage } from './content/admin/AdminMenuPage'
 import { ProductManager } from './content/productManager/ProductManager'
+import { InvoiceManager } from './content/invoiceManager/InvoiceManager'
 import { ClientExtraNoteManager } from './content/clientExtraNoteManager/ClientExtraNoteManager'
 import { OrderManager } from './content/orderManager/OrderManager'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -39,6 +40,7 @@ function App() {
                 <Route exact path="/products" component={() => <DrawerMenu pageContent={ProductManager()}></DrawerMenu>} />
                 <Route exact path="/orders" component={() => <DrawerMenu pageContent={OrderManager()}></DrawerMenu>} />
                 <Route exact path="/clients-notes" component={() => <DrawerMenu pageContent={ClientExtraNoteManager()}></DrawerMenu>} />
+                <Route exact path="/invoices" component={() => <DrawerMenu pageContent={InvoiceManager()}></DrawerMenu>} />
               </Fragment>)
           }
         </Switch>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import {
   Paper,
   Table,
@@ -12,6 +12,7 @@ import {
   TableFooter,
   TablePagination
 } from '@material-ui/core';
+import BookIcon from '@material-ui/icons/Book';
 import { orderService } from '../../service/salesManagement/orderService';
 import { Setter } from '../../util/TypeUtils';
 import { radioValueBinding, radioChangeBinding } from '../../util/bindings';
@@ -33,6 +34,9 @@ interface Props {
 const useStyle = makeStyles(() => ({
   buttonCenter: {
     textAlign: 'center',
+  },
+  buttonRightMaring: {
+    marginRight: 10
   }
 }));
 
@@ -69,14 +73,25 @@ export function SelectOrder({
     <Paper>
       <TableHeader
         actions={
-          <Button
-            color='primary'
-            variant='contained'
-            onClick={() => setSelectedOrder(null)}
-          >
-            <AddIcon />
+          <Fragment>
+            <Button
+              color='primary'
+              variant='contained'
+              className={cls.buttonRightMaring}
+              onClick={() => location.assign('/invoices')}
+            >
+              <BookIcon />
+            faktury
+            </Button>
+            <Button
+              color='primary'
+              variant='contained'
+              onClick={() => setSelectedOrder(null)}
+            >
+              <AddIcon />
             NOWY
           </Button>
+          </Fragment>
         }
       >
         Zamówienia

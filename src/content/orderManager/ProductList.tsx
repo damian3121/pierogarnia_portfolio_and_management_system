@@ -82,11 +82,13 @@ export function ProductList(props: Props) {
         initialValues={{ orderItems: orderProductItems }}
         onSubmit={async (values, { setSubmitting }) => {
           try {
+            console.log(values.orderItems)
             const items = values.orderItems.map(item => {
               return {
                 summaryPrice: orderItemPrice(item.productId, item.quantity),
                 quantity: item.quantity,
                 productId: item.productId,
+                productName: item.productName
               }
             })
             const order = await orderService.orderProductsUpdate(props.orderId, items);

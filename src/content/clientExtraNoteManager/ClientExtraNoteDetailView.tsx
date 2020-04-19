@@ -1,14 +1,11 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Button, makeStyles, Grid, Theme, MenuItem } from '@material-ui/core';
-import { TextField, Checkbox } from 'formik-material-ui';
+import { TextField } from 'formik-material-ui';
 import { TableHeader } from '../../component/table/TableHeader';
 import { Fragment, useState, useEffect } from 'react';
 import { mapAxiosError } from '../../util/RestUtils';
 import { Notyfication, AlertType } from '../../component/notification/Notification';
-import { Order, orderService, OrderItem, AddOrder } from '../../service/salesManagement/orderService';
-import { KeyboardDateTimePickerInput } from '../../component/input/KeyboardDateTimePickerInput';
-import moment from 'moment';
 import { useLoading } from '../../hooks/useLoading';
 import { fktClientService } from '../../service/salesManagement/fktClientService';
 import { ClientExtraNote, AddClientExtraNote, clientExtraNoteService } from '../../service/clientExtraNoteService/clientExtraNoteService';
@@ -52,7 +49,6 @@ export function ClientExtraNoteDetailView({
 }: Props) {
   const cls = useStyle();
 
-  //tu cza bedzie zfeczować
   const fetchedClientsExtraNotes = useLoading(
     () => fktClientService.getAll()
   )[0] || [];
@@ -104,7 +100,7 @@ export function ClientExtraNoteDetailView({
           if (editMode && selectedClientExtraNote != null) {
             const updated = await clientExtraNoteService.update(selectedClientExtraNote.id, {
               extraInfo: values.extraInfo,
-              extraInfoClientName: values.extraInfoClientName,
+              extraInfoClientName: values.extraInfoClientName ? values.extraInfoClientName : '',
               fktCustomerId: values.fktCustomerId
             })
             onClientExtraNoteUpdated(updated)
@@ -113,7 +109,7 @@ export function ClientExtraNoteDetailView({
             try {
               const item = await clientExtraNoteService.create({
                 extraInfo: values.extraInfo,
-                extraInfoClientName: values.extraInfoClientName,
+                extraInfoClientName: values.extraInfoClientName ? values.extraInfoClientName : '',
                 fktCustomerId: values.fktCustomerId
               });
               onClientExtraNoteAdded(item)
